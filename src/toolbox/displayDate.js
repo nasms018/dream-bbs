@@ -1,30 +1,25 @@
-export const displayDate = (regDate,upDate) => {
+const listDiv = [
+  { div: 1000 * 60 * 60 * 24 * 365, postfix: "년전" },
+  { div: 1000 * 60 * 60 * 24 * 30, postfix: "개월전" },
+  { div: 1000 * 60 * 60 * 24, postfix: "일전" },
+  { div: 1000 * 60 * 60, postfix: "시간전" },
+  { div: 1000 * 60, postfix: "분전" },
+  { div: 1000, postfix: "초전" }
+];
+
+export const displayDate = (regDate, upDate) => {
+
   const now = new Date();
   //console.log(now);
-  
-  const diffMilli = now.getTime()- upDate ? upDate : regDate;
-  const diffSec = diffMilli / (1000);
-  let timeBefore = "";
-  if(diffSec < 60){
-    timeBefore=Math.round(diffSec)+"초 전";
-  } else {
-    const diffMin = diffSec / (60);
-    if(diffMin < 60){
-      timeBefore=Math.round(diffMin)+"분 전";
-    } else {
-      const diffHour = diffMin / (60);
-      if(diffHour < 60){
-        timeBefore=Math.round(diffHour)+"시간 전";
-      } else {
-        const diffDay = diffHour / (24);
-        if(diffDay < 60){
-          timeBefore=Math.round(diffDay)+"일 전";
-        } else {
-          const diffYear = diffDay / (365);
-          timeBefore=Math.round(diffYear)+"일 전";
-        }
-      }
-    }
-  }
-  return timeBefore
+  const diffMilli = now.getTime() - (upDate ? upDate : regDate);
+  return displayDatess(diffMilli, 0);
+
+}
+
+const displayDatess = (diff, idx) => {
+  const howLong = Math.round(diff / listDiv[idx].div);
+
+  if (howLong < 1 && idx < listDiv.length - 1)
+    return displayDatess(diff, idx + 1);
+  return howLong + listDiv[idx].postfix;
 }

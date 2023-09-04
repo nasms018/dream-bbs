@@ -4,13 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Header from 'layout/Header';
+import BBSNav from 'layout/BBSNav';
 import Footer from 'layout/Footer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
-        <Header></Header>
+        <BBSNav></BBSNav>
         <App />
         <Footer></Footer>
     </Router>

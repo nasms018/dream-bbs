@@ -28,9 +28,7 @@ export default function Board() {
 }
 
 function RenderSuccess(postList) {
-    return <>
-    {console.log(postList)}
-        {postList.map(post => (
+    return postList.map(post => (
             <tr key={post.id}>
                 <td>
                     <Link key={post.id} to={`/post/${post.id}`}>
@@ -40,8 +38,8 @@ function RenderSuccess(postList) {
                 <td>{post.writer ? post.writer.name : ""}</td>
                 <td>{post.readCnt}</td>
                 <td>{post.likeCnt}</td>
-                <td>{post.uptDt !== null ? displayDate(post.uptDt) : displayDate(post.regDt)}</td>
+                <td><span>{displayDate(post.regDt, post.uptDt)}</span></td>
             </tr>
-        ))}
-    </>
+        ))
+    
 }
