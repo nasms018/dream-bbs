@@ -9,12 +9,8 @@ export default function Fetch({ uri, renderSuccess,
     const { loading, data, error } = useFatch(uri);
 
     if (loading) return loadingFallback;
-    if (error) return renderError(error);
+    if (error) return renderError({error});
     if (data) {
-        //if(Array.isArray(data)){
-        //    data.map(ele=>renderSuccess(ele));
-        //    return;
-        //}
         return renderSuccess(data);
     };
 }

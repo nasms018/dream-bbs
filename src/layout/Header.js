@@ -1,23 +1,24 @@
-import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { useFatch } from 'hooks/useFatch';
 import Fetch from 'toolbox/Fetch';
-//Home, 
+
 export default function Header() {
-    const boardListUri = "/bb/anonymous/listAll";
+    const boardListUri = "http://localhost:8080/bb/anonymous/listAll";
   
     return (
-        <>
-            <Link to="/">Home</Link>
+        <header>
+            <Link to="/">Header</Link>
+            &nbsp;&nbsp;
             <Fetch uri={boardListUri} renderSuccess={RenderSuccess} />
-        </>
+        </header>
     )
 }
 
-
 function RenderSuccess(boardList) {
-    return <>{boardList.map(board=>{
-        return <Link key={board.id} to={`/post/anonymous/listAll/${board.id}`}>{board.name}</Link>})}
+    return <>{boardList.map(board=>(
+        <Link key={board.id} to={`/board/${board.id}`}>
+            &nbsp;{board.name}
+            </Link>
+        ))}
     </>
 
 }

@@ -1,13 +1,9 @@
-
-import Header from 'layout/Header';
+import BBSRouter from 'router/BBSRouter';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-    </div>
-  );
+    <BBSRouter />
+  )
 }
-
-export default App;
+export default App
