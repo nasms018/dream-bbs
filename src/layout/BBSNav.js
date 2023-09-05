@@ -8,8 +8,7 @@ export default function BBSNav() {
   
     return (
         <header>
-            <Link to="/">BBSNav</Link>
-            &nbsp;&nbsp;
+            <Link className='badge bg-warning text-wrap' to="/">BBSNav</Link>
             <Fetch uri={boardListUri} renderSuccess={RenderSuccess} />
             <Login />
         </header>
@@ -21,8 +20,8 @@ function RenderSuccess(boardList) {
 
     return boardList.map(board=>(
         
-        <Link key={board.id} to={`/board/${board.id}`}>
-            &nbsp;{board.name}
+        <Link className='badge bg-warning text-wrap' key={board.id} to={`/board/${board.id}`}>
+            {board.name}
             </Link>
         ))
 
