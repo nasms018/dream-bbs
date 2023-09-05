@@ -1,12 +1,11 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import Fetch from 'toolbox/Fetch';
+import { useParams, Link } from 'react-router-dom'
 import { displayDate } from 'toolbox/displayDate';
 
 export default function Board() {
     const { id } = useParams();  // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
-    const postListUri = `http://localhost:8080/post/anonymous/listAll/${id}`   
+    const postListUri = `http://localhost:8080/post/anonymous/listAll/${id}`
     return (
         <div>
             <table>
@@ -29,17 +28,17 @@ export default function Board() {
 
 function RenderSuccess(postList) {
     return postList.map(post => (
-            <tr key={post.id}>
-                <td>
-                    <Link key={post.id} to={`/post/${post.id}`}>
-                        &nbsp;&nbsp;{post.title}
-                    </Link>
-                </td>
-                <td>{post.writer ? post.writer.name : ""}</td>
-                <td>{post.readCnt}</td>
-                <td>{post.likeCnt}</td>
-                <td><span>{displayDate(post.regDt, post.uptDt)}</span></td>
-            </tr>
-        ))
-    
+        <tr key={post.id}>
+            <td>
+                <Link key={post.id} to={`/post/${post.id}`}>
+                    &nbsp;&nbsp;{post.title}
+                </Link>
+            </td>
+            <td>{post.writer ? post.writer.name : ""}</td>
+            <td>{post.readCnt}</td>
+            <td>{post.likeCnt}</td>
+            <td><span>{displayDate(post.regDt, post.uptDt)}</span></td>
+        </tr>
+    ))
+
 }

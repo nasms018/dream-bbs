@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 
+//Hook 사용은 함수처리 안에서는 사용 불가능함
 function useFatch(uri) {
     const [data, setData] = useState();
     const [error, setError] = useState();
     const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!uri) return;
 
         fetch(uri)
@@ -14,7 +15,7 @@ function useFatch(uri) {
             .then(setLoading(false))
             .catch(setError);
     }, [uri]);
-    return {loading, data, error};
+    return { loading, data, error };
 }
 
-export {useFatch};
+export { useFatch };

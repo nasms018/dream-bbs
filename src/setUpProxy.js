@@ -16,3 +16,14 @@ module.exports = function (app) {
     })
   );
 };
+
+/*
+const { createProxyMiddleware } = require("http-proxy-middleware");
+module.exports = function (app) {
+  app.use(
+    "/api", //proxy가 필요한 path prameter를 입력합니다.
+    createProxyMiddleware("/"{
+
+
+    }))}
+    */
