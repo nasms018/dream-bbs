@@ -1,16 +1,22 @@
 import { useRef, useState, useEffect, useContext } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import APPContext from "context/AppContextProvider";
+import ReactDOM from 'react-dom';
+import { Form, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
-import AuthContext from "context/AuthProvider";
+export default function Login() {
+  const { auth, setAuth } = useContext(APPContext);
+  let userRef = useRef();
+  let myInputRef = useRef()
 
-function Login() {
-  const { auth, setAuth } = useContext(AuthContext);
-  const userRef = useRef();
 
   const [user, setUser] = useState('');
   const [pwd, setPwd] = useState('');
+
+
+
+
   const [signInResult, setSignInResult] = useState({});
   const [success, setSuccess] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -36,48 +42,54 @@ function Login() {
   /*
   async await에 대한..
   */
-  const handleSubmit = (e) => {
-    setSignInResult({});
-    e.preventDefault();
-    console.log(`${user}... ${pwd}  handleSubmit 처리할 것`);
-
-    fetch(`http://localhost:8080/sign-api/sign-in`, {
+  async function signIn() {
+    const jsonData = await fetch(`http://localhost:8080/sign-api/sign-in`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ id: user, password: pwd }),
-    }).then(response => response.json())
-    .then(data => {console.log("............. ");console.log(data); return (data=>setSignInResult(data));})
-    //.then(data => data.code === 0 ? setSignInResult(data) : console.log("실패" + data.code))
-
-      .then(setLoading(false));
-
-    
-    
-    /*
-    .then(response => {
-      console.log(response);
-      console.log(response.json);
-      response.json()})
-      .then(data=>setSignInResult(data))
-      .then(setLoading(false));
-*/
-    console.log(signInResult);
-    const accessToken = signInResult.token;
-    const roles = signInResult.roles;
-
-    setAuth({ user, roles, accessToken });
-    setUser('');
-    setPwd('');
-    if(accessToken){
-      setSuccess(true);
-    } else {
-      setSuccess(false);
-    }
-    setShow(false);
-
+    }).then(res => res.json());
+    console.log(jsonData);
+    if (!jsonData.success)
+      throw new Error(JSON.stringify(jsonData));
+    return jsonData;
   }
+
+  async function handleSubmit() {
+    var signInResult;
+    setUser('');   
+    setPwd('');
+
+    try {
+      signInResult = await signIn();
+      console.log("success");
+      console.log(signInResult);
+
+      const accessToken = signInResult.token;
+      const roles = signInResult.roles;
+  
+      setAuth({ user, roles, accessToken });
+      setUser('');
+      setPwd('');
+      setSuccess(true);
+      setShow(false);
+
+    } catch (error) {
+      console.log("fail");
+      console.log(error.message);
+      setError(true);
+      setErrMsg('Login Failed');
+      setAuth();
+      setSignInResult();
+      setSuccess(false);
+      
+      alert("아이디나 비밀번호가 틀림")
+      
+      setPwd('');
+    };
+  };
+
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -85,6 +97,10 @@ function Login() {
     setSignInResult({});
     setSuccess(false);
     setShow(false);
+  }
+
+  function setFocusOnUser() {
+    ReactDOM.findDOMNode(userRef).focus();
   }
 
   return success ? (
@@ -103,10 +119,10 @@ function Login() {
         onClick={handleShow}>
         로그인
       </Button>
-
-      <Modal show={show} onHide={handleClose}>
+      <Link className='badge bg-warning text-wrap' to="/sign-up">회원가입</Link>
+      <Modal show={show} onHide={handleClose} onShow={setFocusOnUser}>
         <Modal.Header closeButton>
-          {error ? <Form.Label>{errMsg}</Form.Label> : ""}
+        {/*error ? <Form.Label>{errMsg}</Form.Label>:""*/}
           <Modal.Title>Sign In</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -114,23 +130,23 @@ function Login() {
             <Form.Group className="mb-3" >
               <Form.Label htmlFor="username">Username:</Form.Label>
               <Form.Control
+                ref={c => userRef = c}
                 type="text"
                 id="username"
                 inputRef={userRef}
+                placeholder='ID를 입력하세요'
                 autoComplete="off"
                 onChange={(e) => setUser(e.target.value)}
                 value={user}
                 required
               />
             </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
+            <Form.Group className="mb-3">
               <Form.Label htmlFor="password">Password:</Form.Label>
               <Form.Control
                 type="password"
                 id="password"
+                placeholder='Password를 입력하세요'
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
                 required
@@ -145,11 +161,17 @@ function Login() {
           <Button variant="primary" onClick={handleSubmit}>
             Sign In
           </Button>
+          <Button variant="primary" onClick={setFocusOnUser}>
+            Focus
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
   )
-    ;
+
+
 }
 
-export default Login;
+
+
+
