@@ -15,22 +15,34 @@ const Register = () => {
 
   const [pwd, setPwd] = useState('');
   const [matchPwd, setMatchPwd] = useState('');
-  const [validMatch, setValidMatch] = useState(false);
+  const [validMatch, setValidMatch] = useState();
 
   const [userSex, setUserSex] = useState();
   const [listCP, setListCP] = useState(new Map());
-
-
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
+  const [toggleButtons, setToggleButtons] = useState(false);
+
   useEffect(() => {
-    setValidMatch(pwd === matchPwd);
+    setValidMatch(pwd?pwd === matchPwd:false);
   }, [pwd, matchPwd])
 
   useEffect(() => {
     setErrMsg('');
   }, [userName, pwd, matchPwd])
+
+  const onBlurNick = async(e) => {
+    console.log("onBlurNick")
+
+    try {
+      const response = await axios.get(`/party/anonymous/checkNick?nick=${e.target.value}`);
+      console.log(response?.data);
+      console.log(JSON.stringify(response))
+     } catch (err) {
+      setErrMsg('Registration Failed')
+    }
+  };
 
   const checkCPValidity = (cpType, inValue) => {
     console.log(cpType);
@@ -42,20 +54,41 @@ const Register = () => {
 
     listCP.set(cpType, inValue)
     setListCP(listCP);
-
-
-
-
   };
+
+  const checkSex = (e) => {
+    console.log("Check sex"+e);
+    console.log(e.target.value)
+    setUserSex(e.target.value)
+  };
+
+
+
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let list =[]
-    for (let [key, value] of listCP) {
 
-      list.push({cpType:key, cpVal:value});
+    if(!validMatch){
       
+      //errMsg, setErrMsg
+
     }
+
+
+    let list =[]
+
+
+
+
+    //list = listCP.entries().next((key, value)=>list.push({cpType:key, cpVal:value}))
+
+    for (let [key, value] of listCP) {
+      list.push({cpType:key, cpVal:value});
+    }
+
 
     const bodyData = {
       organization: { id: "0000" },
@@ -66,6 +99,7 @@ const Register = () => {
       listContactPoint: list
       
     };
+    console.log(JSON.stringify(bodyData))
     console.log(list);
     console.log(JSON.stringify(list));
 
@@ -120,6 +154,7 @@ const Register = () => {
               <Form.Control
                 type="text"
                 id="usernick"
+                onBlur={onBlurNick}
                 placeholder='사용자 닉을 입력하세요'
                 onChange={(e) => setUserNick(e.target.value)}
                 value={userNick}
@@ -155,6 +190,9 @@ const Register = () => {
                   label="남성"
                   name="userSex"
                   type="radio"
+                  value={true}
+                  defaultChecked
+                  onChange={checkSex}
                   id={`inline-radio-1`}
                 />
                 <Form.Check
@@ -162,6 +200,8 @@ const Register = () => {
                   label="여성"
                   name="userSex"
                   type="radio"
+                  value={false}
+                  onChange={checkSex}
                   id={`inline-radio-1`}
                 />
               </div>
@@ -180,7 +220,7 @@ const Register = () => {
             </Form.Group>
 
           </Form>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button variant="primary" onClick={handleSubmit} disabled={!validMatch}>
             Sign up
           </Button>
         </>
