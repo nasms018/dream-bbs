@@ -4,7 +4,7 @@ import Login from 'components/Login';
 
 
 export default function BBSNav() {
-    const boardListUri = `http://localhost:8080/bb/anonymous/listAll`;
+    const boardListUri = `/bb/anonymous/listAll`;
   
     return (
         <header>

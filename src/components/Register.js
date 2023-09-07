@@ -10,21 +10,19 @@ import { Form, Button } from "react-bootstrap";
 
 const Register = () => {
   const { codeList } = useContext(AppContext);
-
-
   const [userName, setUserName] = useState('');
   const [userNick, setUserNick] = useState('');
+
   const [pwd, setPwd] = useState('');
   const [matchPwd, setMatchPwd] = useState('');
-
-  const [userSex, setUserSex] = useState('');
-
-
   const [validMatch, setValidMatch] = useState(false);
+
+  const [userSex, setUserSex] = useState();
+  const [listCP, setListCP] = useState(new Map());
+
 
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
-
 
   useEffect(() => {
     setValidMatch(pwd === matchPwd);
@@ -35,49 +33,61 @@ const Register = () => {
   }, [userName, pwd, matchPwd])
 
   const checkCPValidity = (cpType, inValue) => {
-    if (cpType.validationRe) {
-      console.log("aaaa" + new RegExp(cpType.validationRe).test(inValue))
+    console.log(cpType);
+    console.log(inValue);
+    if (cpType.validationRe && !(new RegExp(cpType.validationRe).test(inValue))) {
+      return;
     }
+    //복제하고, 중복되지 않게 값 추가, 기억시키기
+
+    listCP.set(cpType, inValue)
+    setListCP(listCP);
+
+
+
+
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if button enabled with JS hack
+    let list =[]
+    for (let [key, value] of listCP) {
+
+      list.push({cpType:key, cpVal:value});
+      
+    }
+
+    const bodyData = {
+      organization: { id: "0000" },
+      name: userName,
+      nick: userNick,
+      pwd: pwd,
+      sex: userSex,
+      listContactPoint: list
+      
+    };
+    console.log(list);
+    console.log(JSON.stringify(list));
+
+
     try {
       const response = await axios.post("/party/anonymous/createMember",
-        JSON.stringify({
-          organization: { id: "0000" },
-          person: {
-            name: userName,
-            nick: userNick,
-            pwd: pwd,
-            sex: true,
-            listContactPoint: [{ cpType: "hand phone number" }, { cpVal: "000-0999-8888" },
-            { cpType: "home address" }, { cpVal: "구로1" },
-            { cpType: "email address" }, { cpVal: "aa@abc.com" }]
-          }
-        }),
+        JSON.stringify(bodyData),
         {
           headers: { 'Content-Type': 'application/json' }
-          //withCredentials: true
         }
       );
-      console.log(response?.data);
-      console.log(response?.accessToken);
+      console.log(response?.bodyData);
       console.log(JSON.stringify(response))
       setSuccess(true);
       //clear state and controlled inputs
       //need value attrib on inputs for this
-      setUserName('');
-      setPwd('');
-      setMatchPwd('');
+
     } catch (err) {
-
       setErrMsg('Registration Failed')
-
-
     }
   }
+
 
   return (
     <>
@@ -86,6 +96,7 @@ const Register = () => {
           <h1>Success!</h1>
           <p>
             <a href="/">Sign In</a>
+
           </p>
         </section>
       ) : (
@@ -121,7 +132,7 @@ const Register = () => {
               <Form.Control
                 type="password"
                 id="userpwd"
-                placeholder='사용자 닉을 입력하세요'
+                placeholder='비밀번호를 입력하세요'
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
                 required
@@ -130,31 +141,31 @@ const Register = () => {
               <Form.Control
                 type="password"
                 id="usermatchPwd"
-                placeholder='사용자 닉을 입력하세요'
+                placeholder='비밀번호를 확인하세요'
                 onChange={(e) => setMatchPwd(e.target.value)}
                 value={matchPwd}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3" >
-		<Form.Label htmlFor="userSex">성별:</Form.Label>
-        <div key={`inline-radio`} className="mb-3">
-          <Form.Check
-            inline
-            label="남성"
-            name="userSex"
-            type="radio"
-            id={`inline-radio-1`}
-          />
-          <Form.Check
-            inline
-            label="여성"
-            name="userSex"
-            type="radio"
-            id={`inline-radio-1`}
-          />
-        </div>
-	</Form.Group>
+              <Form.Label htmlFor="userSex">성별:</Form.Label>
+              <div key={`inline-radio`} className="mb-3">
+                <Form.Check
+                  inline
+                  label="남성"
+                  name="userSex"
+                  type="radio"
+                  id={`inline-radio-1`}
+                />
+                <Form.Check
+                  inline
+                  label="여성"
+                  name="userSex"
+                  type="radio"
+                  id={`inline-radio-1`}
+                />
+              </div>
+            </Form.Group>
 
 
             <Form.Group className="mb-3" >
@@ -163,13 +174,15 @@ const Register = () => {
                 <Form.Control
                   type="text"
                   id={cpType.codeVal}
-                  onChange={(e) => checkCPValidity(cpType, e.target.value)}
+                  onChange={(e) => checkCPValidity(cpType.codeVal, e.target.value)}
                 />
               </>))}
             </Form.Group>
 
           </Form>
-
+          <Button variant="primary" onClick={handleSubmit}>
+            Sign up
+          </Button>
         </>
       )}
     </>

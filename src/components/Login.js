@@ -43,7 +43,7 @@ export default function Login() {
   async await에 대한..
   */
   async function signIn() {
-    const jsonData = await fetch(`http://localhost:8080/sign-api/sign-in`, {
+    const jsonData = await fetch(`/sign-api/sign-in`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export default function Login() {
 
   async function handleSubmit() {
     var signInResult;
-    setUser('');   
+    setUser('');
     setPwd('');
 
     try {
@@ -68,7 +68,7 @@ export default function Login() {
 
       const accessToken = signInResult.token;
       const roles = signInResult.roles;
-  
+
       setAuth({ user, roles, accessToken });
       setUser('');
       setPwd('');
@@ -83,9 +83,9 @@ export default function Login() {
       setAuth();
       setSignInResult();
       setSuccess(false);
-      
+
       alert("아이디나 비밀번호가 틀림")
-      
+
       setPwd('');
     };
   };
@@ -122,7 +122,7 @@ export default function Login() {
       <Link className='badge bg-warning text-wrap' to="/sign-up">회원가입</Link>
       <Modal show={show} onHide={handleClose} onShow={setFocusOnUser}>
         <Modal.Header closeButton>
-        {/*error ? <Form.Label>{errMsg}</Form.Label>:""*/}
+          {/*error ? <Form.Label>{errMsg}</Form.Label>:""*/}
           <Modal.Title>Sign In</Modal.Title>
         </Modal.Header>
         <Modal.Body>
