@@ -2,10 +2,17 @@ import React from 'react'
 import Fetch from 'toolbox/Fetch';
 import { useParams, Link } from 'react-router-dom'
 import { displayDate } from 'toolbox/displayDate';
+import APPContext from "context/AppContextProvider";
+import {  useState, useContext } from "react";
 
-export default function Board() {
-    const { id } = useParams();  // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
-    const postListUri = `http://localhost:8080/post/anonymous/listAll/${id}`
+
+export default function PostList() {
+    const { id:boardId } = useParams();  // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
+    const postListUri = `/post/anonymous/listAll/${boardId}`
+    const { auth } = useContext(APPContext);
+    const isMember = auth.roles?.includes("member");
+
+
     return (
         <div>
             <table>
@@ -22,6 +29,8 @@ export default function Board() {
                     <Fetch uri={postListUri} renderSuccess={RenderSuccess} />
                 </tbody>
             </table>
+            {/*  */}
+            {isMember?<Link className='badge bg-warning text-wrap' key="000" to={`/post/new/${boardId}`} >글쓰기</Link>:""}
         </div>
     )
 }

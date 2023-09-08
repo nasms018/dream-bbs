@@ -3,9 +3,10 @@ import Fetch from 'toolbox/Fetch';
 import { useParams } from 'react-router-dom'
 import { displayDate } from "toolbox/displayDate";
 
+
 export default function PostDetail() {
     const { id } = useParams();
-    const postUri = `http://localhost:8080/post/anonymous/getPost/${id}`
+    const postUri = `/post/anonymous/getPost/${id}`
     return (
         <Fetch uri={postUri} renderSuccess={RenderSuccess} />
     )
@@ -31,6 +32,7 @@ function Replies({ listReply = [] }) {
 
     return <ul>
         {listReply.map((reply) => {
+                
             return <li>
                 ㄴ댓글 : <span>{reply.content}</span>
                 &nbsp;&nbsp; 최종작성일 : <span>{displayDate(reply.regDt, reply.uptDt)}</span>

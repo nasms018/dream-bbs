@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 
 export default function Login() {
   const { auth, setAuth } = useContext(APPContext);
+  const [signInResult, setSignInResult] = useState({});
+
   let userRef = useRef();
   let myInputRef = useRef()
 
@@ -17,7 +19,6 @@ export default function Login() {
 
 
 
-  const [signInResult, setSignInResult] = useState({});
   const [success, setSuccess] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
@@ -68,13 +69,14 @@ export default function Login() {
 
       const accessToken = signInResult.token;
       const roles = signInResult.roles;
+      const userId = signInResult.userId;
 
-      setAuth({ user, roles, accessToken });
+      setAuth({ user, roles, accessToken, userId});
       setUser('');
       setPwd('');
       setSuccess(true);
       setShow(false);
-
+      console.log(roles);
     } catch (error) {
       console.log("fail");
       console.log(error.message);
@@ -105,13 +107,13 @@ export default function Login() {
 
   return success ? (
     <section>
+      <Button variant="primary" style={{ float: 'right', marginRight: '100px' }}
+        onClick={handleLogout}>로그아웃</Button>
       <h4>{auth.user}님 환영합니다</h4>
       <br />
       <p>
-        <a href="/">Go to Home</a>
+        <a href="#">Go to Home</a>
       </p>
-      <Button variant="primary" style={{ float: 'right', marginRight: '100px' }}
-        onClick={handleLogout}>나가기</Button>
     </section>
   ) : (
     <>

@@ -76,14 +76,9 @@ const Register = () => {
       //errMsg, setErrMsg
 
     }
-
-
     let list =[]
 
-
-
-
-    //list = listCP.entries().next((key, value)=>list.push({cpType:key, cpVal:value}))
+     //list = listCP.entries().next((key, value)=>list.push({cpType:key, cpVal:value}))
 
     for (let [key, value] of listCP) {
       list.push({cpType:key, cpVal:value});
@@ -130,7 +125,6 @@ const Register = () => {
           <h1>Success!</h1>
           <p>
             <a href="/">Sign In</a>
-
           </p>
         </section>
       ) : (
