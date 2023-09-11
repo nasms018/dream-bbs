@@ -21,9 +21,8 @@ export default function PostList() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-
     const bodyData = {
-      BoardVO: { id: boardId }, writer: { id: writer.userId, nick:writer.userNick },
+      boardVO: { id: boardId }, writer: { id: writer.userId, nick:writer.userNick },
       title: title.trim(), content: content.trim()
     }
     if(!hasAllContents)
