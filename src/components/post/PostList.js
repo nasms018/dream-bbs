@@ -15,8 +15,8 @@ export default function PostList() {
         e.preventDefault();
         const search = txtSearch.current.value;
         console.log(search);
-        postListUri = `/post/anonymous/search/${boardId}/${search}`;
-        setPostListUri(postListUri);
+        const searchListUri = `/post/anonymous/search/${boardId}/${search}`;
+        setPostListUri(searchListUri);
     }
 
 
@@ -52,7 +52,7 @@ function RenderSuccess(postList) {
         <tr key={post.id}>
             <td>
                 <Link key={post.id} to={`/post/${post.id}`}>
-                    &nbsp;&nbsp;{post.title}
+                    {post.title}
                 </Link>
             </td>
             <td>{post.writer ? post.writer.name : ""}</td>
