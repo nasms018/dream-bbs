@@ -1,14 +1,8 @@
-import React from 'react'
-import Fetch from 'toolbox/Fetch';
-import { useParams, Link } from 'react-router-dom'
-import { displayDate } from 'toolbox/displayDate';
-import AppContext from "context/AppContextProvider";
-import { useState, useContext, useEffect } from "react";
-import { Form, Button } from 'react-bootstrap';
 import axios from 'api/axios';
-
-
-
+import AppContext from "context/AppContextProvider";
+import { useContext, useEffect, useState } from "react";
+import { Button, Form } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
 export default function PostList() {
   const { boardId } = useParams();  // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
@@ -27,7 +21,7 @@ export default function PostList() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const bodyData = {
-      BoardVO: { id: boardId }, writer: { id: writer.userId },
+      BoardVO: { id: boardId }, writer: { id: writer.userId, nick:writer.userNick },
       title: title.trim(), content: content.trim()
     }
 

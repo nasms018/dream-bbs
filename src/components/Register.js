@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
-import AppContext from "context/AppContextProvider";
 import axios from 'api/axios';
-import { Form, Button } from "react-bootstrap";
+import AppContext from "context/AppContextProvider";
+import { Button, Form } from "react-bootstrap";
 
 //const USER_REGEX = ""; // /^[A-z][A-z0-9-_]{3,23}$/;
 //const PWD_REGEX = ""; // /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -61,12 +61,6 @@ const Register = () => {
     console.log(e.target.value)
     setUserSex(e.target.value)
   };
-
-
-
-
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();

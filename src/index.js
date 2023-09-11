@@ -1,13 +1,12 @@
-import './index.css';
-import App from './App';
-import React, { useContext } from 'react';
-import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
-import BBSNav from 'layout/BBSNav';
-import Footer from 'layout/Footer';
-import { BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AppContextProvider } from 'context/AppContextProvider';
+import BBSNav from 'layout/BBSNav';
+import Footer from 'layout/Footer';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
 
 
 
