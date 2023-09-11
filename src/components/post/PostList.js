@@ -3,6 +3,8 @@ import { useContext, useRef, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
 import Fetch from 'toolbox/Fetch';
 import { displayDate } from 'toolbox/displayDate';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 export default function PostList() {
     const { id: boardId } = useParams();  // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
@@ -22,7 +24,7 @@ export default function PostList() {
 
     return (
         <div>
-            <table>
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>제목</th>
@@ -35,12 +37,11 @@ export default function PostList() {
                 <tbody>
                     <Fetch uri={postListUri} renderSuccess={RenderSuccess} />
                 </tbody>
-            </table>
+            </Table>
             {/*  */}
             <div>
                 <input placeholder="검색어" ref={txtSearch}></input>
-                <button onClick={onSearch}>검색</button>
-                
+                &nbsp;<Button variant="info" onClick={onSearch}>검색</Button>
             </div>
             {isMember ? <Link className='badge bg-warning text-wrap' key="000" to={`/post/new/${boardId}`} >글쓰기</Link> : ""}
         </div>
