@@ -108,7 +108,7 @@ export default function Login() {
 
   return success ? (
     <section>
-      <Button variant="primary" style={{ float: 'right', marginRight: '50px' }}
+      <Button variant="dark" style={{ float: 'right', marginRight: '10px' }}
         onClick={handleLogout}>로그아웃</Button>
       <h4>{auth.user}님 환영합니다</h4>
       <br />
@@ -118,7 +118,7 @@ export default function Login() {
     </section>
   ) : (
     <>
-      <Button variant="primary" style={{ float: 'right', marginRight: '50px' }}
+      <Button variant="primary" style={{ float: 'right', marginRight: '10px' }}
         onClick={handleShow}>
         로그인
       </Button>

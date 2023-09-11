@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import Fetch from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
-
+import Table from "react-bootstrap/Table";
 
 export default function MemberList() {
     const { ownerId } = useParams();  // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
@@ -11,7 +11,7 @@ export default function MemberList() {
 
     return (
         <div>
-            <table>
+            <Table responsive variant="white" size="sm">
                 <thead>
                     <tr>
                         <th>이름</th>
@@ -23,7 +23,7 @@ export default function MemberList() {
                 <tbody>
                     <Fetch uri={listAllMemberUri} renderSuccess={RenderSuccess} />
                 </tbody>
-            </table>
+            </Table>
         </div>
     )
 }
@@ -31,7 +31,7 @@ export default function MemberList() {
 function RenderSuccess(memberList) {
     return memberList.map(member => (
         <>
-            <tr key={member.id}>
+            <tr key={member.id} >
                 <td>{member.name}</td>
                 <td>{member.nick}</td>
                 <td>{member.sex ? "남성":"여성"}</td>

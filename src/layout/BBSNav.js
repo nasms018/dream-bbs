@@ -21,7 +21,6 @@ export default function BBSNav() {
       &nbsp;&nbsp;
       {isManager ? (
         <Link
-        
           className="badge bg-warning text-wrap"
           key="000"
           to={`/member_list/0000`}
@@ -48,12 +47,11 @@ function RenderSuccess(boardList) {
             className="badge bg-warning text-wrap"
             key={board.id}
             to={`/board/${board.id}`}
-          >
-            {board.name}
+          >{board.name}
           </Link>
         </>
       ))}
-      <Dropdown style={{ float: 'right', marginRight: '50px' }}>
+      <Dropdown style={{ float: 'right', marginRight: '10px' }}>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
           게시판
         </Dropdown.Toggle>
