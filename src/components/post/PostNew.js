@@ -37,11 +37,12 @@ export default function PostList() {
 
 
     try {
-      const response = await axios.post("/post/anonymous/createPost",
+      const response = await axios.post(
+        "/post/anonymous/createPost",
         bodyData,
         {
           headers: { 
-          "X-AUTH-TOKEN" : `Bearer ${writer.accessToken}`
+          "x-auth-token" : `${writer.accessToken}`  //Bearer
         }
         }
       );

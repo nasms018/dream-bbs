@@ -70,8 +70,9 @@ export default function Login() {
       const accessToken = signInResult.token;
       const roles = signInResult.roles;
       const userId = signInResult.userId;
+      const userNick = signInResult.userNick;
 
-      setAuth({ user, roles, accessToken, userId});
+      setAuth({ user, roles, accessToken, userId, userNick});
       setUser('');
       setPwd('');
       setSuccess(true);
