@@ -33,15 +33,16 @@ export default function PostList() {
 
     };
 
-    const goto = (page, e) => {
+    const goto = (choosenPage) => {
         console.log(page);
         setPage(page);
         if(byKeyWord){
-            //const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${page}`;
-            //setPostListUri(postSearchListUri);
+            const search = txtSearch.current.value;
+            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${choosenPage}`;
+            setPostListUri(postSearchListUri);
         } else {
             setByKeyWord(false)
-            setPostListUri(`/post/anonymous/listAll/${boardId}/${page}`);
+            setPostListUri(`/post/anonymous/listAll/${boardId}/${choosenPage}`);
         }
 
 
@@ -53,12 +54,12 @@ export default function PostList() {
         console.log(paging.prev);
         console.log(paging.next);
         if (paging.prev)
-            pagingBar.push(<button onClick={(e)=>goto(paging.startPage - 1,e)}>&lt;</button>);
+            pagingBar.push(<button onClick={(e)=>goto(paging.startPage - 1)}>&lt;</button>);
         for (let i = paging.startPage; i <= paging.lastPage; i++) {
-            pagingBar.push(<button key={i} onClick={(e)=>goto(i,e)}>{i}</button>);
+            pagingBar.push(<button key={i} onClick={(e)=>goto(i)}>{i}</button>);
         }
         if (paging.next)
-            pagingBar.push(<button onClick={(e)=>goto(paging.startPage + 1,e)}>&gt;</button>);
+            pagingBar.push(<button onClick={(e)=>goto(paging.startPage + 1)}>&gt;</button>);
         return pagingBar;
     };
 
