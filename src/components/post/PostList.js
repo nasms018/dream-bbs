@@ -33,16 +33,16 @@ export default function PostList() {
 
     };
 
-    const goto = (choosenPage) => {
+    const goto = (chosenPage) => {
         console.log(page);
         setPage(page);
         if(byKeyWord){
             const search = txtSearch.current.value;
-            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${choosenPage}`;
+            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${chosenPage}`;
             setPostListUri(postSearchListUri);
         } else {
             setByKeyWord(false)
-            setPostListUri(`/post/anonymous/listAll/${boardId}/${choosenPage}`);
+            setPostListUri(`/post/anonymous/listAll/${boardId}/${chosenPage}`);
         }
 
 
