@@ -15,7 +15,7 @@ const Register = () => {
 	const [matchPwd, setMatchPwd] = useState('');
 	const [validMatch, setValidMatch] = useState();
 
-	const [userSex, setUserSex] = useState();
+	const [userSex, setUserSex] = useState(true);
 
 	const [listCP, setListCP] = useState(new Map());
 
