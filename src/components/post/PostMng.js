@@ -9,15 +9,12 @@ export default function PostMng() {
   const location = useLocation();
   //신규 시 post.boardVO.id 활용, 수정 시 모든 정보 활용
   const post = location.state?.post;
-  
-  console.log(location.state)
-  console.log(post);
-
   const { auth: writer } = useContext(AppContext);
+
   const [title, setTitle] = useState(post?.title);
   const [content, setContent] = useState(post?.content);
+
   const [hasAllContents, setHasAllContents] = useState()
-  const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
 
 
@@ -30,21 +27,18 @@ export default function PostMng() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    const bodyData = {
-      boardVO: { id: post.boardVO.id },
-      title: title.trim(), content: content.trim()
-    }
     if(!hasAllContents)
       return;
 
+    const bodyData = {
+      boardVO: { id:post.id, writer:post.writer , id: post.boardVO.id },
+      title: title.trim(), content: content.trim()
+    }
     //console.log(bodyData);
     //console.log(JSON.stringify(bodyData));
-
-
     try {
       const response = await axios.post(
-        "/post/createPost",
+        "/post/mngPost",
         bodyData, {headers: {
           'Content-Type': 'application/json',
           "x-auth-token": `${writer.accessToken}`}
@@ -56,7 +50,7 @@ export default function PostMng() {
       navigate(`/board/${post.boardVO.id}/1`);
 
     } catch (err) {
-      setErrMsg('Registration Failed')
+      console.log('Registration Failed')
     }
   }
 

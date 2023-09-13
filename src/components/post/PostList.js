@@ -83,7 +83,7 @@ export default function PostList() {
                 </thead>
                 <tbody>
 
-                    {postListWithPaging.firstVal && postListWithPaging.firstVal.map((post) => (
+                    {postListWithPaging?.firstVal?.map((post) => (
                         
                         <tr key={post.id}>
                             <td>
@@ -101,10 +101,8 @@ export default function PostList() {
                     ))}
                 </tbody>
             </Table>
-            {displayPagination(postListWithPaging.secondVal)}
-
+            {postListWithPaging?.secondVal?displayPagination(postListWithPaging.secondVal):""}
         </>
-
     }
 
 
