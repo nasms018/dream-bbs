@@ -81,8 +81,11 @@ export default function PostList() {
         />
       </Form.Group>
     </Form>
-    <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
-      등록
+    <Button variant="success" onClick={handleSubmit} disabled={!hasAllContents}>
+      수정
+    </Button>
+    <Button variant="danger" onClick={handleSubmit} disabled={!hasAllContents}>
+      삭제
     </Button>
   </>
 

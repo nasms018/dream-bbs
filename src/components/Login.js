@@ -1,4 +1,4 @@
-import APPContext from "context/AppContextProvider";
+import AppContext from "context/AppContextProvider";
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
 export default function Login() {
-  const { auth, setAuth } = useContext(APPContext);
+  const { auth, setAuth } = useContext(AppContext);
   const [signInResult, setSignInResult] = useState({});
 
   let userRef = useRef();
@@ -15,9 +15,6 @@ export default function Login() {
 
   const [user, setUser] = useState('');
   const [pwd, setPwd] = useState('');
-
-
-
 
   const [success, setSuccess] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -39,6 +36,13 @@ export default function Login() {
   useEffect(() => {
     setErrMsg('');
   }, [user, pwd])
+
+  const onSubmitEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
+    }
+  };
+
 
   /*
   async await에 대한..
@@ -151,6 +155,7 @@ export default function Login() {
                 id="password"
                 placeholder='Password를 입력하세요'
                 onChange={(e) => setPwd(e.target.value)}
+                onKeyPress={onSubmitEnter}
                 value={pwd}
                 required
               />

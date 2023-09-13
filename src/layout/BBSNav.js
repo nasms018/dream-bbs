@@ -1,15 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import {useState} from 'react-router'
 import Login from "components/Login";
 import APPContext from "context/AppContextProvider";
 import { useContext } from "react";
 import Fetch from "toolbox/Fetch";
 import Dropdown from "react-bootstrap/Dropdown";
+import PostUpdate from "components/post/PostUpdate";
+
 
 export default function BBSNav() {
   const boardListUri = `/bb/anonymous/listAll`;
   const { auth } = useContext(APPContext);
   const isManager = auth.roles?.includes("manager");
+  const navigate = useNavigate();
 
   return (
     <header>
@@ -33,8 +36,10 @@ export default function BBSNav() {
         ""
       )}
       <Login />
+      <PostUpdate onClick={handleShow}></PostUpdate>
     </header>
   );
+  
 }
 
 function RenderSuccess(boardList) {
@@ -46,9 +51,10 @@ function RenderSuccess(boardList) {
           <Link
             className="badge bg-warning text-wrap"
             key={board.id}
-            to={`/board/${board.id}/1`}
+             onClick={(e)=>{window.location.replace(`/board/${board.id}/1`)}}//to={`/board/${board.id}/1`}
           >{board.name}
           </Link>
+          
         </>
       ))}
       <Dropdown style={{ float: 'right', marginRight: '10px' }}>
@@ -58,7 +64,6 @@ function RenderSuccess(boardList) {
         <Dropdown.Menu>
           {boardList.map((board) => (
             <>
-              &nbsp;&nbsp;
               <Dropdown.Item href={`/board/${board.id}/1`}>
                 {board.name}
               </Dropdown.Item>

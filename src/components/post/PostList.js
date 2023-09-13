@@ -15,12 +15,17 @@ export default function PostList() {
     const isMember = auth.roles?.includes("member");
     const txtSearch = useRef("");
     
-    
+    const onSubmitSearch = (e) => {
+        if (e.key === "Enter") {
+            onSearch(e);
+        }
+      };
+
     const onSearch = (e) => {
         const search = txtSearch.current.value;
         e.preventDefault();
 
-        console.log(search);
+        //console.log(search);
         if(search.trim()){
             setByKeyWord(true)
             const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/1`;
@@ -49,8 +54,8 @@ export default function PostList() {
 
     const displayPagination = (paging) => {
         const pagingBar = [];
-        console.log(paging.prev);
-        console.log(paging.next);
+        //console.log(paging.prev);
+        //console.log(paging.next);
         if (paging.prev)
             pagingBar.push(<button onClick={(e)=>goto(paging.startPage - 1)}>&lt;</button>);
         for (let i = paging.startPage; i <= paging.lastPage; i++) {
@@ -63,8 +68,8 @@ export default function PostList() {
 
 
     function RenderSuccess(postListWithPaging) {
-        console.log("postListWithPaging : "+postListWithPaging);
-        console.log(postListWithPaging);
+        //console.log("postListWithPaging : "+postListWithPaging);
+        //console.log(postListWithPaging);
         return <> 
             <Table responsive variant="white" >
                 <thead>
@@ -107,7 +112,7 @@ export default function PostList() {
         <div>
             {/*  */}
             <div>
-                <input placeholder="검색어" ref={txtSearch}></input>
+                <input placeholder="검색어" ref={txtSearch} onKeyPress={onSubmitSearch}></input>
                 &nbsp;
                 <Button variant="info" onClick={onSearch}>
                     검색
@@ -117,8 +122,7 @@ export default function PostList() {
                 <Link
                     className="badge bg-warning text-wrap"
                     key="0000"
-                    to={`/post/new/${boardId}`}
-                >
+                    to={`/post/new/${boardId}`}>
                     글쓰기
                 </Link>
             ) : (
