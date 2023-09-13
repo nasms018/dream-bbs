@@ -8,10 +8,9 @@ import Button from "react-bootstrap/Button";
 
 
 export default function PostList() {
-    const [page, setPage] = useState(1);
+    const { id: boardId, pageNo } = useParams(); // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
     const [byKeyWord, setByKeyWord] = useState(false);
-    const { id: boardId } = useParams(); // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
-    const [postListUri, setPostListUri] = useState(`/post/anonymous/listAll/${boardId}/${page}`);
+    const [postListUri, setPostListUri] = useState(`/post/anonymous/listAll/${boardId}/${pageNo}`);
     const { auth } = useContext(APPContext);
     const isMember = auth.roles?.includes("member");
     const txtSearch = useRef("");
@@ -20,29 +19,28 @@ export default function PostList() {
     const onSearch = (e) => {
         const search = txtSearch.current.value;
         e.preventDefault();
-        setPage(1);
+
         console.log(search);
         if(search.trim()){
             setByKeyWord(true)
-            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${page}`;
+            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/1`;
             setPostListUri(postSearchListUri);
         } else {
             setByKeyWord(false)
-            setPostListUri(`/post/anonymous/listAll/${boardId}/${page}`);
+            setPostListUri(`/post/anonymous/listAll/${boardId}/1`);
         }
 
     };
 
-    const goto = (choosenPage) => {
-        console.log(page);
-        setPage(page);
+    const goto = (chosenPage) => {
+
         if(byKeyWord){
             const search = txtSearch.current.value;
-            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${choosenPage}`;
+            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${chosenPage}`;
             setPostListUri(postSearchListUri);
         } else {
             setByKeyWord(false)
-            setPostListUri(`/post/anonymous/listAll/${boardId}/${choosenPage}`);
+            setPostListUri(`/post/anonymous/listAll/${boardId}/${chosenPage}`);
         }
 
 

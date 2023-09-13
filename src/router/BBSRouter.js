@@ -11,7 +11,7 @@ export default function BBSRouter() {
     return (
         <Routes> 
           <Route path="/" element={ <Home /> } />
-          <Route path="/board/:id" element={ <PostList /> } />
+          <Route path="/board/:id/:pageNo" element={ <PostList /> } />
           <Route path="/post/:id" element={ <PostDetail /> } />
           <Route path="/post/new/:boardId" element={ <PostNew /> } />
 

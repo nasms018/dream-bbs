@@ -14,10 +14,11 @@ export default function PostDetail() {
 }
 
 function RenderSuccess(post) {
-
+    console.log(post)
     return <>
 <ListGroup as="ul">
       <ListGroup.Item variant="warning" as="li" active>
+       
       title : {post.title}
       </ListGroup.Item>
       <ListGroup.Item as="li" disabled>
@@ -28,10 +29,6 @@ function RenderSuccess(post) {
         최종작성일 : <span>{displayDate(post.regDt, post.uptDt)}</span>
       </ListGroup.Item>
       <ListGroup.Item as="li">{post.content}</ListGroup.Item>
-
-
-
-
 
 
         <Replies listReply={post.listReply} />

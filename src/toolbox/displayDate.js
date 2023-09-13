@@ -10,15 +10,13 @@ const listDiv = [
 export const displayDate = (regDate, upDate) => {
 
   const now = new Date();
-  //console.log(now);
-  const diffMilli = now.getTime() - (upDate ? upDate : regDate);
+  const diffMilli = now.getTime() - new Date(upDate ? upDate : regDate).getTime();
   return displayDatess(diffMilli, 0);
 
 }
 
 const displayDatess = (diff, idx) => {
   const howLong = Math.round(diff / listDiv[idx].div);
-
   if (howLong < 1 && idx < listDiv.length - 1)
     return displayDatess(diff, idx + 1);
   return howLong + listDiv[idx].postfix;

@@ -46,7 +46,7 @@ function RenderSuccess(boardList) {
           <Link
             className="badge bg-warning text-wrap"
             key={board.id}
-            to={`/board/${board.id}`}
+            to={`/board/${board.id}/1`}
           >{board.name}
           </Link>
         </>
@@ -59,7 +59,7 @@ function RenderSuccess(boardList) {
           {boardList.map((board) => (
             <>
               &nbsp;&nbsp;
-              <Dropdown.Item href={`/board/${board.id}`}>
+              <Dropdown.Item href={`/board/${board.id}/1`}>
                 {board.name}
               </Dropdown.Item>
             </>

@@ -2,7 +2,8 @@ import axios from 'api/axios';
 import AppContext from "context/AppContextProvider";
 import { useContext, useEffect, useState } from "react";
 import { Button, Form } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 
 export default function PostList() {
   const { boardId } = useParams();  // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
@@ -11,42 +12,40 @@ export default function PostList() {
   const [content, setContent] = useState("");
   const [hasAllContents, setHasAllContents] = useState()
   const [errMsg, setErrMsg] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     setHasAllContents(title.trim() ? content.trim() : false);
-    console.log(title);
-    console.log(content);
+    //console.log(title);
+    //console.log(content);
   }, [title, content])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const bodyData = {
-      boardVO: { id: boardId }, writer: { id: writer.userId, nick:writer.userNick },
+      boardVO: { id: boardId },
       title: title.trim(), content: content.trim()
     }
     if(!hasAllContents)
       return;
 
-    console.log(bodyData);
-    console.log(JSON.stringify(bodyData));
+    //console.log(bodyData);
+    //console.log(JSON.stringify(bodyData));
 
 
     try {
       const response = await axios.post(
-        "/post/anonymous/createPost",
-        bodyData,
-        {
-          headers: { 
-          "x-auth-token" : `${writer.accessToken}`  //Bearer
-        }
+        "/post/createPost",
+        bodyData, {headers: {
+          'Content-Type': 'application/json',
+          "x-auth-token": `${writer.accessToken}`}
         }
       );
-      console.log(response?.bodyData);
-      console.log(JSON.stringify(response))
+      //console.log(response?.bodyData);
+      //console.log(JSON.stringify(response))
       
-      //clear state and controlled inputs
-      //need value attrib on inputs for this
+      navigate(`/board/${boardId}/1`);
 
     } catch (err) {
       setErrMsg('Registration Failed')
