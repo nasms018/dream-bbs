@@ -16,7 +16,7 @@ export default function Login() {
   const [user, setUser] = useState('');
   const [pwd, setPwd] = useState('');
 
-  const [success, setSuccess] = useState(false);
+
   const [errMsg, setErrMsg] = useState('');
 
   const [error, setError] = useState(false);
@@ -55,7 +55,7 @@ export default function Login() {
       },
       body: JSON.stringify({ id: user, password: pwd }),
     }).then(res => res.json());
-    console.log(jsonData);
+    //console.log(jsonData);
     if (!jsonData.success)
       throw new Error(JSON.stringify(jsonData));
     return jsonData;
@@ -79,7 +79,7 @@ export default function Login() {
       setAuth({ user, roles, accessToken, userId, userNick});
       setUser('');
       setPwd('');
-      setSuccess(true);
+
       setShow(false);
       console.log(roles);
     } catch (error) {
@@ -89,7 +89,7 @@ export default function Login() {
       setErrMsg('Login Failed');
       setAuth();
       setSignInResult();
-      setSuccess(false);
+
 
       alert("아이디나 비밀번호가 틀림")
 
@@ -102,7 +102,7 @@ export default function Login() {
     e.preventDefault();
     setAuth({});
     setSignInResult({});
-    setSuccess(false);
+
     setShow(false);
   }
 
@@ -110,15 +110,14 @@ export default function Login() {
     ReactDOM.findDOMNode(userRef).focus();
   }
 
-  return success ? (
+  return auth?.userNick ? (
     <section>
       <Button variant="dark" style={{ float: 'right', marginRight: '10px' }}
         onClick={handleLogout}>로그아웃</Button>
-      <h4>{auth.user}님 환영합니다</h4>
-      <br />
-      <p>
-        <a href="#">Go to Home</a>
-      </p>
+      <h5 style={{ float: 'right' }}>{auth.user}님 환영합니다</h5>
+      
+        
+      
     </section>
   ) : (
     <>

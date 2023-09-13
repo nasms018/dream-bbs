@@ -4,8 +4,7 @@ import PostDetail from 'components/post/PostDetail';
 import { Route, Routes } from 'react-router';
 import Register from 'components/Register';
 import MemberList from 'components/MemberList';
-import PostNew from 'components/post/PostNew';
-
+import PostMng from 'components/post/PostMng';
 
 export default function BBSRouter() {
     return (
@@ -13,7 +12,7 @@ export default function BBSRouter() {
           <Route path="/" element={ <Home /> } />
           <Route path="/board/:id/:pageNo" element={ <PostList /> } />
           <Route path="/post/:id" element={ <PostDetail /> } />
-          <Route path="/post/new/:boardId" element={ <PostNew /> } />
+          <Route path="/post/managePost" element={ <PostMng /> } />
 
           <Route path="/sign-up" element={ <Register /> } />
           <Route path="/member_list/:ownerId" element={ <MemberList /> } />

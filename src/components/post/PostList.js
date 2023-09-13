@@ -121,8 +121,8 @@ export default function PostList() {
             {isMember ? (
                 <Link
                     className="badge bg-warning text-wrap"
-                    key="0000"
-                    to={`/post/new/${boardId}`}>
+                    to="/post/managePost" 
+                    state={{ post: {boardVO:{id:boardId}} }}>
                     글쓰기
                 </Link>
             ) : (

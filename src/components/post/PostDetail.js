@@ -9,7 +9,6 @@ import AppContext from "context/AppContextProvider";
 
 export default function PostDetail() {
     const { auth } = useContext(AppContext);
-
     const { id } = useParams();
     const postUri = `/post/anonymous/getPost/${id}`
     return (
@@ -17,7 +16,7 @@ export default function PostDetail() {
     )
 
     function RenderSuccess(post) {
-        console.log(post)
+        console.log(post);
         return <>
             <ListGroup as="ul">
                 <ListGroup.Item variant="warning" as="li" active>
@@ -30,22 +29,23 @@ export default function PostDetail() {
                     disCnt : <span>{post.disCnt}&nbsp;&nbsp;</span>
                     최종작성일 : <span>{displayDate(post.regDt, post.uptDt)}</span>
                 </ListGroup.Item>
-                <ListGroup.Item as="li">
-                    {(post.writer ? post.writer.username === auth.userNick : false) ? <Link
-                    className="badge bg-warning text-wrap"
-                    key="0000"
-                    to={`/post/new/${boardId}`}>
-                    수정
-                    </Link>
-                    <Link
-                    className="badge bg-warning text-wrap"
-                    key="0000"
-                    to={`/post/new/${boardId}`}>
-                    삭제
-                    </Link>
-                    : ""}
-                </ListGroup.Item>
                 <ListGroup.Item as="li">{post.content}</ListGroup.Item>
+                <ListGroup.Item as="li">
+                    {(post.writer ? post.writer.username === auth.userNick : false) ?
+                        <>
+                            <Link
+                                className="badge bg-info text-wrap"
+                                to="/post/managePost" state={{post: post }}>
+                                수정
+                            </Link>
+                            <Link
+                                className="badge bg-danger text-wrap"
+                                to={`/delete/{id}`}>
+                                삭제
+                            </Link>
+                        </>
+                        : ""}
+                </ListGroup.Item>
                 <Replies listReply={post.listReply} />
             </ListGroup>
         </>
