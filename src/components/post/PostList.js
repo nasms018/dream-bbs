@@ -38,7 +38,6 @@ export default function PostList() {
     };
 
     const goto = (chosenPage) => {
-
         if(byKeyWord){
             const search = txtSearch.current.value;
             const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${chosenPage}`;
