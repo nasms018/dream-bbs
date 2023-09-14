@@ -16,20 +16,18 @@ export default function PostList() {
     const [currentPage, setCurrentPage] = useState(state.page);
     const txtSearch = useRef("");
 
-    const [postListUri, setPostListUri] = useState(`/post/anonymous/listAll/${state.boardId}/${state.page}`);
     let initUrl;
     if (state.search) {
         initUrl =`/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`;
-
+        
     }
     else {
         initUrl =`/post/anonymous/listAll/${state.boardId}/${state.page}`;
     }
-
+    
+    const [postListUri, setPostListUri] = useState(initUrl);
 
     function buildPostListUri(page) {
-
-
         let search = txtSearch.current.value;
         if (!search && state.search)
             search = state.search;
@@ -128,7 +126,7 @@ export default function PostList() {
             {isMember ? (
                 <Link
                     className="badge bg-warning text-wrap"
-                    to="/post/managePost"
+                    to="/post/mngPost"
                     state={{ post: { boardVO: { id: state.boardId } } }}>
                     글쓰기
                 </Link>

@@ -1,14 +1,14 @@
+import axios from 'api/axios';
 import AppContext from "context/AppContextProvider";
 import { useContext, useState } from "react";
-import { Link, useLocation } from 'react-router-dom';
-import { displayDate } from "toolbox/displayDate";
-import ListGroup from 'react-bootstrap/ListGroup';
-import Toast from 'react-bootstrap/Toast';
-import Fetch from 'toolbox/Fetch';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import axios from 'api/axios';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Row from 'react-bootstrap/Row';
+import { Link, useLocation } from 'react-router-dom';
+import Fetch from 'toolbox/Fetch';
+import { displayDate } from "toolbox/displayDate";
 
 export default function PostDetail() {
     const { auth } = useContext(AppContext);
@@ -69,10 +69,6 @@ export default function PostDetail() {
     </>
     )
 
-    function onEnter(e) {
-        if (e.key === "Enter") { }
-    }
-
 
     function RenderSuccess(post) {
         console.log(post);
@@ -119,14 +115,16 @@ export default function PostDetail() {
         if (!auth.userNick)
             return;
         return (
-            <FloatingLabel
-                controlId="floatingInput"
-                label="댓글달기(Enter)"
-                className="mb-3"
-                >
-                <Form.Control type="text" onChange={(e)=>{setContent(e.target.value)}} />
-                <Button variant="primary" onClick={(e)=>{mngReply(e, post.id)}}>댓글달기</Button>
-            </FloatingLabel>
+            <Container>
+                <Row>
+                    <Col>댓글 달기</Col>
+                </Row>
+                <Row>
+                    <Col sm={10}><input placeholder='댓글 달기' onChange={(e) => setContent(e.target.value)} 
+                    style={{height: "100%", width: "100%"}}></input></Col>
+                    <Col sm><Button variant="primary" onClick={(e)=>{mngReply(e, post.id)}}>적용</Button></Col>
+                </Row>
+            </Container>
         );
     }
 
