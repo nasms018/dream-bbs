@@ -1,11 +1,13 @@
 import AppContext from "context/AppContextProvider";
+import Footer from "layout/Footer";
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
+import Col from 'react-bootstrap/Col';
 
-export default function Login() {
+export default function LoginModal() {
   const { auth, setAuth } = useContext(AppContext);
   const [signInResult, setSignInResult] = useState({});
 
@@ -91,7 +93,7 @@ export default function Login() {
       setSignInResult();
 
 
-      alert("아이디나 비밀번호가 틀림")
+      alert("로그인 실패하였습니다.");
 
       setPwd('');
     };
@@ -112,9 +114,11 @@ export default function Login() {
 
   return auth?.userNick ? (
     <section>
-      <Button variant="dark" style={{ float: 'right', marginRight: '10px' }}
+      
+      <span style={{ float: 'right' }} className="badge bg-success text-wrap">{auth.user}님 로그인</span>
+      
+      <Button variant="dark" size="sm"
         onClick={handleLogout}>로그아웃</Button>
-      <h5 style={{ float: 'right' }}>{auth.user}님 환영합니다</h5>
       
         
       

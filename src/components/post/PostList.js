@@ -1,75 +1,87 @@
-import APPContext from "context/AppContextProvider";
+import AppContext from "context/AppContextProvider";
 import { useContext, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Fetch from "toolbox/Fetch";
 import { displayDate } from "toolbox/displayDate";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 
-
 export default function PostList() {
-    const { id: boardId, pageNo } = useParams(); // APP에 있는 :id 와 이름 통일  //http://localhost:8080/post/anonymous/listAll/000n
-    const [byKeyWord, setByKeyWord] = useState(false);
-    const [postListUri, setPostListUri] = useState(`/post/anonymous/listAll/${boardId}/${pageNo}`);
-    const { auth } = useContext(APPContext);
-    const isMember = auth.roles?.includes("member");
+    const location = useLocation();
+
+    const { auth } = useContext(AppContext);
+    const isMember = auth?.roles?.includes("member");
+    const state = location.state;
+
+    const [currentPage, setCurrentPage] = useState(state.page);
     const txtSearch = useRef("");
-    
-    const onSubmitSearch = (e) => {
+
+    const [postListUri, setPostListUri] = useState(`/post/anonymous/listAll/${state.boardId}/${state.page}`);
+    let initUrl;
+    if (state.search) {
+        initUrl =`/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`;
+
+    }
+    else {
+        initUrl =`/post/anonymous/listAll/${state.boardId}/${state.page}`;
+    }
+
+
+    function buildPostListUri(page) {
+
+
+        let search = txtSearch.current.value;
+        if (!search && state.search)
+            search = state.search;
+
+        if (search.trim()) {
+            console.log("검색조회");
+            console.log(postListUri)
+            setPostListUri(`/post/anonymous/search/${state.boardId}/${search}/${page}`);
+            console.log(`/post/anonymous/search/${state.boardId}/${search}/${page}`)
+        } else {
+            console.log("기본조회");
+            console.log(currentPage)
+            setPostListUri(`/post/anonymous/listAll/${state.boardId}/${page}`);
+            console.log(`/post/anonymous/listAll/${state.boardId}/${page}`)
+        }
+        setCurrentPage(page);
+    }
+
+    const onSearch = (e) => {
+        e.preventDefault();
         if (e.key === "Enter") {
             onSearch(e);
         }
-      };
-
-    const onSearch = (e) => {
-        const search = txtSearch.current.value;
-        e.preventDefault();
-
-        //console.log(search);
-        if(search.trim()){
-            setByKeyWord(true)
-            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/1`;
-            setPostListUri(postSearchListUri);
-        } else {
-            setByKeyWord(false)
-            setPostListUri(`/post/anonymous/listAll/${boardId}/1`);
-        }
-
+        state.postListWithPaging = null;
+        buildPostListUri(1);
     };
 
-    const goto = (chosenPage) => {
-        if(byKeyWord){
-            const search = txtSearch.current.value;
-            const postSearchListUri = `/post/anonymous/search/${boardId}/${search}/${chosenPage}`;
-            setPostListUri(postSearchListUri);
-        } else {
-            setByKeyWord(false)
-            setPostListUri(`/post/anonymous/listAll/${boardId}/${chosenPage}`);
-        }
-
-
+    function goTo(chosenPage) {
+        state.postListWithPaging = null;
+        buildPostListUri(chosenPage);
     }
-
 
     const displayPagination = (paging) => {
         const pagingBar = [];
         //console.log(paging.prev);
         //console.log(paging.next);
         if (paging.prev)
-            pagingBar.push(<button onClick={(e)=>goto(paging.startPage - 1)}>&lt;</button>);
+            pagingBar.push(<button onClick={(e) => goTo(paging.startPage - 1)}>&lt;</button>);
         for (let i = paging.startPage; i <= paging.lastPage; i++) {
-            pagingBar.push(<button key={i} onClick={(e)=>goto(i)}>{i}</button>);
+            pagingBar.push(<button key={i} onClick={(e) => goTo(i)}>{i}</button>);
         }
         if (paging.next)
-            pagingBar.push(<button onClick={(e)=>goto(paging.startPage + 1)}>&gt;</button>);
+            pagingBar.push(<button onClick={(e) => goTo(paging.startPage + 1)}>&gt;</button>);
         return pagingBar;
     };
 
-
-    function RenderSuccess(postListWithPaging) {
-        //console.log("postListWithPaging : "+postListWithPaging);
-        //console.log(postListWithPaging);
-        return <> 
+    function renderSuccess(postListWithPaging) {
+        console.log("postListWithPaging : " + postListWithPaging);
+        console.log(postListWithPaging);
+        const postList = postListWithPaging.firstVal;
+        const pagination = postListWithPaging?.secondVal;
+        return <>
             <Table responsive variant="white" >
                 <thead>
                     <tr>
@@ -82,11 +94,12 @@ export default function PostList() {
                 </thead>
                 <tbody>
 
-                    {postListWithPaging?.firstVal?.map((post) => (
-                        
+                    {postList?.map((post) => (
                         <tr key={post.id}>
                             <td>
-                                <Link className="link-success link-offset-2 link-underline-opacity-0 link-underline-opacity-20-hover" key={post.id} to={`/post/${post.id}`}>
+                                <Link className="link-success link-offset-2 link-underline-opacity-0 link-underline-opacity-20-hover"
+                                    key={post.id} to={`/post`}
+                                    state={{ id: post.id, boardId: state.boardId, page: currentPage, search: txtSearch.current?.value, postListWithPaging }}>
                                     {post.title}
                                 </Link>
                             </td>
@@ -100,33 +113,30 @@ export default function PostList() {
                     ))}
                 </tbody>
             </Table>
-            {postListWithPaging?.secondVal?displayPagination(postListWithPaging.secondVal):""}
+            {pagination ? displayPagination(pagination) : ""}
         </>
     }
 
-
     return (
         <div>
-            {/*  */}
-            <div>
-                <input placeholder="검색어" ref={txtSearch} onKeyPress={onSubmitSearch}></input>
-                &nbsp;
-                <Button variant="info" onClick={onSearch}>
-                    검색
-                </Button>
-            </div>
+            <input placeholder="검색어" ref={txtSearch}></input>
+            &nbsp;
+            <Button variant="info" onClick={onSearch}>
+                검색
+            </Button>
+
             {isMember ? (
                 <Link
                     className="badge bg-warning text-wrap"
-                    to="/post/managePost" 
-                    state={{ post: {boardVO:{id:boardId}} }}>
+                    to="/post/managePost"
+                    state={{ post: { boardVO: { id: state.boardId } } }}>
                     글쓰기
                 </Link>
             ) : (
                 ""
             )}
-            <Fetch uri={postListUri} renderSuccess={RenderSuccess} />
-
+            {state.postListWithPaging ? renderSuccess(state.postListWithPaging) :
+                <Fetch uri={postListUri} renderSuccess={renderSuccess} />}
         </div>
     );
 }

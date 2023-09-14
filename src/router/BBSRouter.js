@@ -10,8 +10,8 @@ export default function BBSRouter() {
     return (
         <Routes> 
           <Route path="/" element={ <Home /> } />
-          <Route path="/board/:id/:pageNo" element={ <PostList /> } />
-          <Route path="/post/:id" element={ <PostDetail /> } />
+          <Route path="/board" element={ <PostList /> } />
+          <Route path="/post" element={ <PostDetail /> } />
           <Route path="/post/managePost" element={ <PostMng /> } />
 
           <Route path="/sign-up" element={ <Register /> } />

@@ -27,11 +27,11 @@ export default function PostMng() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if(!hasAllContents)
+    if (!hasAllContents)
       return;
 
     const bodyData = {
-      boardVO: { id:post.id, writer:post.writer , id: post.boardVO.id },
+      boardVO: { id: post.id, writer: post.writer, id: post.boardVO.id },
       title: title.trim(), content: content.trim()
     }
     //console.log(bodyData);
@@ -39,14 +39,16 @@ export default function PostMng() {
     try {
       const response = await axios.post(
         "/post/mngPost",
-        bodyData, {headers: {
-          'Content-Type': 'application/json',
-          "x-auth-token": `${writer.accessToken}`}
-        }
+        bodyData, {
+          headers: {
+            'Content-Type': 'application/json',
+            "x-auth-token": `${writer.accessToken}`
+          }
+      }
       );
       //console.log(response?.bodyData);
       //console.log(JSON.stringify(response))
-      
+
       navigate(`/board/${post.boardVO.id}/1`);
 
     } catch (err) {
