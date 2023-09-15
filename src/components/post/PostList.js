@@ -65,12 +65,12 @@ export default function PostList() {
         //console.log(paging.prev);
         //console.log(paging.next);
         if (paging.prev)
-            pagingBar.push(<button onClick={(e) => goTo(paging.startPage - 1)}>&lt;</button>);
+            pagingBar.push(<button key={paging.startPage - 1} onClick={(e) => goTo(paging.startPage - 1)}>&lt;</button>);
         for (let i = paging.startPage; i <= paging.lastPage; i++) {
             pagingBar.push(<button key={i} onClick={(e) => goTo(i)}>{i}</button>);
         }
         if (paging.next)
-            pagingBar.push(<button onClick={(e) => goTo(paging.startPage + 1)}>&gt;</button>);
+            pagingBar.push(<button key={paging.startPage + 1} onClick={(e) => goTo(paging.startPage + 1)}>&gt;</button>);
         return pagingBar;
     };
 
