@@ -49,7 +49,7 @@ export default function PostList() {
     const onSearch = (e) => {
         e.preventDefault();
         if (e.key === "Enter") {
-            onSearch(e);
+
         }
         state.postListWithPaging = null;
         buildPostListUri(1);

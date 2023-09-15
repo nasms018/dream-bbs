@@ -1,16 +1,19 @@
 import axios from 'api/axios';
-import NewReply from 'atom/NewReply';
 import AppContext from "context/AppContextProvider";
 import { useContext, useState } from "react";
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useLocation } from 'react-router-dom';
 import Fetch from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
+import NewReply from 'atom/NewReply';
 
 
 
-export default function PostDetail() {
+export default function PostDetailOld() {
     const { auth } = useContext(AppContext);
     const location = useLocation();
     const state = location.state;
@@ -41,7 +44,7 @@ export default function PostDetail() {
         e.preventDefault();
         //console.log(postId);
 
-        if (replyOnReply.get(parentId) == null || replyOnReply.get(parentId)?.length ===0)
+        if (replyOnReply.get(parentId) === null || replyOnReply.get(parentId)?.length ===0)
             return;
         // writer;	//게시물 작성자
         //content;
@@ -137,7 +140,25 @@ export default function PostDetail() {
             </ListGroup>
         </>
     }
-
+/*
+    function addReply(reply) {
+        console.log(reply);
+        if (!auth.userNick)
+            return;
+        return (
+            <Container>
+                <Row>
+                    <Col>댓글 달기</Col>
+                </Row>
+                <Row>
+                    <Col sm={10}><input placeholder='댓글 달기' //onChange={(e) => setNewReplyContent(e.target.value)}
+                    onInput={(e)=>onInputReplyContent(e,reply.id)} value={replyOnReply.get(reply.id)} style={{ height: "100%", width: "100%" }}></input></Col>
+                    <Col sm><Button variant="btn btn-light" onClick={(e) => { mngReply(e, reply.id) }}>적용</Button></Col>
+                </Row>
+            </Container>
+        );
+    }
+*/
     function Replies({ listReply = [] }) {
         if (!listReply || listReply.length === 0)
             return "";
@@ -147,7 +168,7 @@ export default function PostDetail() {
                 reply = {...reply, openAddReplay:false};
 
                 return <ListGroup.Item as="li">
-                    ‣‣ <span>{reply.content}</span>
+                    ↣ <span>{reply.content}</span>
                     &nbsp;&nbsp;&nbsp;&nbsp; / <span>{displayDate(reply.regDt, reply.uptDt)}</span>
                     &nbsp;&nbsp;&nbsp;&nbsp; / <span>{reply.writer ? reply.writer.nick : ""}</span>
                     <Button variant="btn btn-light" size='sm'onClick={(e) => { markShowAddReply(e, reply.id) }}>+댓글</Button> 

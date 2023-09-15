@@ -44,6 +44,7 @@ export default function PostMng() {
             'Content-Type': 'application/json',
             "x-auth-token": `${writer.accessToken}`}}
       );
+
       //console.log(response?.bodyData);
       //console.log(JSON.stringify(response))
       console.log(`/board/${post.boardVO.id}/1`);
