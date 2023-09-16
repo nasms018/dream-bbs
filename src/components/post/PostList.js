@@ -49,9 +49,10 @@ export default function PostList() {
     const onSearch = (e) => {
         e.preventDefault();
         if (e.key === "Enter") {
-
         }
+
         state.postListWithPaging = null;
+        state.search = null
         buildPostListUri(1);
     };
 
@@ -75,8 +76,7 @@ export default function PostList() {
     };
 
     function renderSuccess(postListWithPaging) {
-        console.log("postListWithPaging : " + postListWithPaging);
-        console.log(postListWithPaging);
+
         const postList = postListWithPaging.firstVal;
         const pagination = postListWithPaging?.secondVal;
         return <>
@@ -119,14 +119,14 @@ export default function PostList() {
         <div>
             <input placeholder="검색어" ref={txtSearch}></input>
             &nbsp;
-            <Button variant="info" onClick={onSearch}>
+            <Button key={"btnSearch"} variant="info" onClick={onSearch}>
                 검색
             </Button>
 
             {isMember ? (
                 <Link
                     className="badge bg-warning text-wrap"
-                    to="/post/mngPost"
+                    to="/post/managePost"
                     state={{ post: { boardVO: { id: state.boardId } } }}>
                     글쓰기
                 </Link>

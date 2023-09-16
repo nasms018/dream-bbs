@@ -32,7 +32,7 @@ export default function BBSNav() {
       {isManager ? (
         <Link
           className="badge bg-warning text-wrap"
-          key="00011"
+          key="0001"
           to={`/member_list/0000`}
         >
           {" "}

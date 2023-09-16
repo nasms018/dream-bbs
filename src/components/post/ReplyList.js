@@ -86,19 +86,24 @@ export default function ReplyList({ parent }) {
 
     }
 
-    function appendJustCreatedReply(NewReply, parent) {
-                   if (!parent.listReply.includes(NewReply))
-                parent.listReply = [NewReply, ...parent.listReply];
+    function appendJustCreatedReply(newReply, parent) {
+            if (! parent.listReply.includes(newReply))
+                parent.listReply = [newReply, ...parent.listReply];
             //console.log("그림그리기 작동확인(parent.listReply)");
             //console.log(parent.listReply);
 
     }
 
-    justCreatedReplay.forEach((NewReply)=>{appendJustCreatedReply(NewReply, parent)})
+    justCreatedReplay.forEach((newReply)=>{appendJustCreatedReply(newReply, parent)})
 
     return <>&nbsp;&nbsp;
-        {(auth.userNick ? <Button variant="btn btn-light" onClick={(e) => { markShowAddReply(e, parent) }} size='sm'>+댓글</Button> : "")}
-        {openAddReplay.has(parent.id) ? <NewReply auth={auth} reply={parent} replyOnReply={replyOnReply} onInputReplyContent={onInputReplyContent} mngReply={mngReply} /> : ""}
+        {auth.userNick ? 
+        <Button variant="btn btn-light" onClick={(e) => { markShowAddReply(e, parent.id) }} size='sm'>
+            +댓글
+        </Button> : ""}
+        {openAddReplay.has(parent.id) ? <NewReply auth={auth} reply={parent} replyOnReply={replyOnReply} 
+        onInputReplyContent={onInputReplyContent} mngReply={mngReply} /> : ""}
+
         {parent.listReply?.map((reply) => {
             return <ListGroup.Item as="li">
                 ▸▹ <span>{reply.content}</span>

@@ -12,7 +12,6 @@ export default function PostMng() {
   
   const { auth: writer } = useContext(AppContext);
   const navigate = useNavigate();
-
   const [title, setTitle] = useState(post?.title);
   const [content, setContent] = useState(post?.content);
 

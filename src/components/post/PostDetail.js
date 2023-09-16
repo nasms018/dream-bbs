@@ -17,14 +17,14 @@ export default function PostDetail() {
     const state = location.state;
     const postUri = `/post/anonymous/getPost/${state.id}`
 
-    return (<>
-                <Link key={state.boardId} to={`/board`} state={state}>
+    return <>
+        <Link key={state.boardId} to={`/board`} state={state}>
             목록으로
         </Link>
         <Fetch uri={postUri} renderSuccess={RenderSuccess} />
         </>
-    )
-}
+    
+
 
 function RenderSuccess(post){
         //console.log(post.listReply);
@@ -43,11 +43,11 @@ function RenderSuccess(post){
                 </ListGroup.Item>
                 <ListGroup.Item as="li" style={{ height: 100 }}>{post.content}</ListGroup.Item>
 
-                {(post.writer ? post.writer.username === post.userNick : false) ?
+                {(post.writer ? post.writer.nick === auth.userNick : false) ?
                     <ListGroup.Item as="li">
                         <Link
                             className="badge bg-info text-wrap"
-                            to="/post/mngPost" state={{ post: post }}>
+                            to="/post/managePost" state={{ post: post }}>
                             수정
                         </Link>
                         <Link
@@ -62,3 +62,4 @@ function RenderSuccess(post){
             </ListGroup>
         </>
     }
+}
