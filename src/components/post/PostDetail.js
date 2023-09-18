@@ -18,16 +18,14 @@ export default function PostDetail() {
     const postUri = `/post/anonymous/getPost/${state.id}`
 
     return <>
-        <Link key={state.boardId} to={`/board`} state={state}>
-            목록으로
-        </Link>
+        
         <Fetch uri={postUri} renderSuccess={RenderSuccess} />
         </>
     
 
 
 function RenderSuccess(post){
-        //console.log(post.listReply);
+        console.log(post.listReply);
         return <>
             <ListGroup responsive variant="white">
 
@@ -42,7 +40,11 @@ function RenderSuccess(post){
                     최종작성일 : <span>{displayDate(post.regDt, post.uptDt)}</span>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" style={{ height: 100 }}>{post.content}</ListGroup.Item>
-
+                <ListGroup.Item as="li">
+                <Link className="badge bg-secondary text-wrap" key={state.boardId} to={`/board`} state={state}>
+                    목록으로
+                </Link>
+                </ListGroup.Item>
                 {(post.writer ? post.writer.nick === auth.userNick : false) ?
                     <ListGroup.Item as="li">
                         <Link

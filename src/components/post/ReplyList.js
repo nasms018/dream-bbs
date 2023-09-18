@@ -87,6 +87,7 @@ export default function ReplyList({ parent }) {
     }
 
     function appendJustCreatedReply(newReply, parent) {
+        console.log(parent.listReply.includes(newReply));
             if (! parent.listReply.includes(newReply))
                 parent.listReply = [newReply, ...parent.listReply];
             //console.log("그림그리기 작동확인(parent.listReply)");
