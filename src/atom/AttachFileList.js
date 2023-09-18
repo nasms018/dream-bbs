@@ -22,8 +22,8 @@ export default function AttachFileList() {
   }
 
   return <>{/*[files.map((aFile)=><span>{aFile.name}</span>)]*/}
-    <AttachFile onFileSelect={onFileSelect} />
     {attachedFile.map(af => <span>{af.name}|</span>)}
+    <AttachFile onFileSelect={onFileSelect} />
     <Button variant="primary" onClick={handleAttach}>
       첨부
     </Button>
