@@ -1,9 +1,11 @@
 import axios from 'api/axios';
+
 import AppContext from "context/AppContextProvider";
 import { useContext, useEffect, useState } from "react";
 import { Button, Form } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-
+import AttachFile from 'atom/AttachFile';
+import AttachFileList from 'atom/AttachFileList';
 
 export default function PostMng() {
   const location = useLocation();
@@ -11,12 +13,12 @@ export default function PostMng() {
   const post = location.state?.post;
   
   const { auth: writer } = useContext(AppContext);
-  const navigate = useNavigate();
   const [title, setTitle] = useState(post?.title);
   const [content, setContent] = useState(post?.content);
-
+  
   const [hasAllContents, setHasAllContents] = useState()
-
+  
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -54,7 +56,6 @@ export default function PostMng() {
     }
   }
 
-
   return <>
 
     <Form>
@@ -79,10 +80,15 @@ export default function PostMng() {
           value={content}
           placeholder='내용을 입력하세요'
           onChange={(e) => setContent(e.target.value)}
-          required
+          required  //필수의
         />
       </Form.Group>
+      <Form.Group>
+    <AttachFileList /> 
+
+      </Form.Group>
     </Form>
+
     <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
       등록
     </Button>
