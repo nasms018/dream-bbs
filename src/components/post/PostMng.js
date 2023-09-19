@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Form } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import AttachFile from 'atom/AttachFile';
-import AttachFileList from 'atom/AttachFileList';
+import AttachedFileList from 'atom/AttachedFileList';
 
 export default function PostMng() {
   const location = useLocation();
@@ -84,14 +84,14 @@ export default function PostMng() {
         />
       </Form.Group>
       <Form.Group>
-    <AttachFileList /> 
+    <AttachedFileList writer={writer} /> 
 
       </Form.Group>
-    </Form>
-
     <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
       등록
     </Button>
+    </Form>
+
   </>
 
 }
