@@ -85,7 +85,6 @@ export default function PostMng() {
       </Form.Group>
       <Form.Group>
     <AttachedFileList writer={writer} /> 
-
       </Form.Group>
     <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
       등록

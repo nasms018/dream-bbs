@@ -33,6 +33,7 @@ export default function AttachFileList({ writer }) {
           "Content-Type": "multipart/form-data",
           "x-auth-token": `${writer.accessToken}`}});
       alert("성공");
+      console.log(response.data);
     } catch (error) {
       alert("돌아가");
       console.log(error);
@@ -41,7 +42,7 @@ export default function AttachFileList({ writer }) {
 
   return <Form.Group className="mb-3" >
     <Form.Label htmlFor="username">첨부파일 : </Form.Label>
-    {attachedFiles.map(af=><span>{af.name} | </span>) }
+    {attachedFiles.map(af=><span> | {af.name}</span>) }
     <AttachFile onFileSelect={onFileSelect} />
     <Button variant="primary" onClick={handleAttach}>
       첨부
