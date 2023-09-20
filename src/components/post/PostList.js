@@ -18,13 +18,13 @@ export default function PostList() {
 
     let initUrl;
     if (state.search) {
-        initUrl =`/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`;
-        
+        initUrl = `/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`;
+
     }
     else {
-        initUrl =`/post/anonymous/listAll/${state.boardId}/${state.page}`;
+        initUrl = `/post/anonymous/listAll/${state.boardId}/${state.page}`;
     }
-    
+
     const [postListUri, setPostListUri] = useState(initUrl);
 
     function buildPostListUri(page) {

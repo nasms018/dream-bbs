@@ -11,13 +11,13 @@ export default function PostMng() {
   const location = useLocation();
   //신규 시 post.boardVO.id 활용, 수정 시 모든 정보 활용
   const post = location.state?.post;
-  
+
   const { auth: writer } = useContext(AppContext);
   const [title, setTitle] = useState(post?.title);
   const [content, setContent] = useState(post?.content);
-  
+
   const [hasAllContents, setHasAllContents] = useState()
-  
+
   const navigate = useNavigate();
 
 
@@ -32,18 +32,22 @@ export default function PostMng() {
     if (!hasAllContents)
       return;
 
-    const bodyData = { id: post.id, writer: post.writer, boardVO:{id: post.boardVO.id},
-      title: title.trim(), content: content.trim() }
-    
+    const bodyData = {
+      id: post.id, writer: post.writer, boardVO: { id: post.boardVO.id },
+      title: title.trim(), content: content.trim()
+    }
+
     //console.log(bodyData);
     //console.log(JSON.stringify(bodyData));
     try {
       const response = await axios.post(
         "/post/mngPost",
         bodyData, {
-          headers: {
-            'Content-Type': 'application/json',
-            "x-auth-token": `${writer.accessToken}`}}
+        headers: {
+          'Content-Type': 'application/json',
+          "x-auth-token": `${writer.accessToken}`
+        }
+      }
       );
 
       //console.log(response?.bodyData);
@@ -84,11 +88,11 @@ export default function PostMng() {
         />
       </Form.Group>
       <Form.Group>
-    <AttachedFileList writer={writer} /> 
+        <AttachedFileList writer={writer} />
       </Form.Group>
-    <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
-      등록
-    </Button>
+      <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
+        등록
+      </Button>
     </Form>
 
   </>
