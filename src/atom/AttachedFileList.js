@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import AttachFile from './AttachFile';
 
-export default function AttachFileList({ writer }) {
+export default function AttachFileList({ writer, listAttach, setListAttach }) {
   const thumbnailRequestTarget = ["video", "image"];
   //검사 장치
   const [contentFilter, setContentFilter] = useState([]);
@@ -47,14 +47,14 @@ export default function AttachFileList({ writer }) {
         });
       alert("성공");
       console.log(response.data);
-      response.data.forEach(afdto=>{
-        if(thumbnailRequestTarget.includes(afdto.contentType))
-        justUrl.push(afdto.jsonRepresentation);
+      response.data.forEach(afDTO=>{
+        if(thumbnailRequestTarget.includes(afDTO.contentType))
+        justUrl.push(afDTO.jsonRepresentation);
 
       });
 
       setAttachedFileUrls([...attachedFileUrls, ...justUrl]);
-      
+      setListAttach([...listAttach, ...response.data])
 /*
       Array.from(response.data).forEach((attachFileDTO) => {
         if (thumbnailRequestTarget.includes(attachFileDTO.contentType)) {

@@ -15,6 +15,7 @@ export default function PostMng() {
   const { auth: writer } = useContext(AppContext);
   const [title, setTitle] = useState(post?.title);
   const [content, setContent] = useState(post?.content);
+  const [listAttach, setListAttach] = useState([]);
 
   const [hasAllContents, setHasAllContents] = useState()
 
@@ -34,7 +35,7 @@ export default function PostMng() {
 
     const bodyData = {
       id: post.id, writer: post.writer, boardVO: { id: post.boardVO.id },
-      title: title.trim(), content: content.trim()
+      title: title.trim(), content: content.trim(), listAttachFile:listAttach
     }
 
     //console.log(bodyData);
@@ -88,7 +89,7 @@ export default function PostMng() {
         />
       </Form.Group>
       <Form.Group>
-        <AttachedFileList writer={writer} />
+        <AttachedFileList writer={writer} listAttach={listAttach} setListAttach={setListAttach}/>
       </Form.Group>
       <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
         등록
