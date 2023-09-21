@@ -9,8 +9,12 @@ import Fetch from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
 import { useFatch } from 'hooks/useFatch';
 import ReplyList from './ReplyList';
+import imgAudio from 'images/audio.png';
+import imgUnknown from 'images/unknown.png';
+
 
 export default function PostDetail() {
+    const thumbnailRequestTarget = ["video", "image"];
     const { auth } = useContext(AppContext);
     const location = useLocation();
     
@@ -25,7 +29,7 @@ export default function PostDetail() {
 
 
 function RenderSuccess(post){
-        console.log(post.listReply);
+        console.log(post);
         return <>
             <ListGroup responsive variant="white">
 
@@ -33,13 +37,26 @@ function RenderSuccess(post){
                     title : {post.title}
                 </ListGroup.Item>
                 <ListGroup.Item as="li" disabled>
-                    writer : {post.writer ? post.writer.username : ""}&nbsp;&nbsp;
+                    작성자 : {post.writer ? post.writer.username : ""}&nbsp;&nbsp;
                     readCnt : <span>{post.readCnt}&nbsp;&nbsp;</span>
                     likeCnt : <span>{post.likeCnt}&nbsp;&nbsp;</span>
                     disCnt : <span>{post.disCnt}&nbsp;&nbsp;</span>
                     최종작성일 : <span>{displayDate(post.regDt, post.uptDt)}</span>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" style={{ height: 100 }}>{post.content}</ListGroup.Item>
+                
+                {post.listAttachFile?.map((attachFile) => (
+                         <ListGroup.Item as="li">
+                            {attachFile.originalFilePureName}
+                            {thumbnailRequestTarget.includes(attachFile.contentType)?
+                            <img src={`/anonymous/displayThumbnail?attachInfo=${attachFile.jsonRepresentation}`} alt="|" />
+                            :attachFile.contentType ==="audio"?<img src={imgAudio} width='20px' height='20px' />:<img src={imgUnknown}  width='20px' height='20px' />
+                            
+                            
+                            }
+                            </ListGroup.Item>
+                    ))}
+                
                 <ListGroup.Item as="li">
                 <Link className="badge bg-secondary text-wrap" key={state.boardId} to={`/board`} state={state}>
                     목록으로

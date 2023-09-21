@@ -7,7 +7,7 @@ import AppContext from 'context/AppContextProvider';
 import axios from 'api/axios';
 
 const getCodeList = async (setCodeList) => {
-  const response = await axios.get("/framework/anonymous/listAllContactPoint");
+  const response = await axios.get("/framework/anonymous/listAllContactPointType");
   setCodeList(response?.data);
 }
 

@@ -54,7 +54,7 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
       });
 
       setAttachedFileUrls([...attachedFileUrls, ...justUrl]);
-      setListAttach([...listAttach, ...response.data])
+      setListAttach([...listAttach, ...response.data]);
 /*
       Array.from(response.data).forEach((attachFileDTO) => {
         if (thumbnailRequestTarget.includes(attachFileDTO.contentType)) {
@@ -62,14 +62,14 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
           썸네일파일가져오기(attachFileDTO);
         }
       });
-      */
+*/
     } catch (error) {
       alert("돌아가");
       console.log(error);
     }
 
   }
-
+/*
   const 썸네일파일가져오기 = async (attachFileDTO) => {
     try {
       const response = await axios.post(`/displayThumbnail`, attachFileDTO,
@@ -99,12 +99,12 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
       console.log(error);
     }
   }
-
+*/
   console.log("그림그리는 중");
 
   return <Form.Group className="mb-3" >
     <Form.Label htmlFor="username">첨부파일</Form.Label>
-    {attachedFileUrls.map(queryString => <img src={`/displayThumbnail?attachInfo=${queryString}`} alt="|" />)}
+    {attachedFileUrls.map(queryString => <img src={`/anonymous/displayThumbnail?attachInfo=${queryString}`} alt="|" />)}
     {/*attachedFiles.map(af=><span>{af.name} | </span>) */}
     <AttachFile onFileSelect={onFileSelect} />
     <Button variant="primary" onClick={handleAttach}>
