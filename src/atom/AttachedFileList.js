@@ -80,7 +80,9 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
     } else {
       imgUrl = process.env.PUBLIC_URL + "/images/unknown.png";
     }
-
+    console.log(imgUrl);
+    console.log({ fileName: afdto.originalFilePureName, imgSrc: imgUrl });
+    return { fileName: afdto.originalFilePureName, imgSrc: imgUrl } 
   }
 
   
@@ -90,7 +92,7 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
     <Form.Label htmlFor="username">첨부파일</Form.Label>
     <AttachFile onFileSelect={onFileSelect} />
 
-    {attachedFiles.map((imgSrc ) => <img src={imgSrc} alt="|"  width='20px' height='20px' />)}
+    {attachedFiles.map(({fileName, imgSrc }) => <>{fileName}<img src={imgSrc} alt="|"  width='100px' height='100px' /></>)}
     <Button variant="primary" onClick={handleAttach}>
       첨부
     </Button>
