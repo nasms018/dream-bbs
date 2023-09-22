@@ -10,7 +10,7 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
   //지금까지 선택한 파일 기억장치. 업로드 용도
   const [uploadTargets, setUploadTargets] = useState([]);
   const [attachedFiles, setAttachedFiles] = useState([]);
-  //const [imgUrl, setImgUrl] =useState([]);;
+  const [imgSrc, setImgSrc] =useState([]);;
   let imgUrl;
   function onFileSelect(finedAndHeaders) {
     let files = [], headers = [];
@@ -43,7 +43,7 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
       alert("성공");
       console.log(response.data);
       const justUpload = response.data.map( (afdto) => {
-        let thumbnail = loadThumbnail(afdto);
+        const thumbnail = loadThumbnail(afdto);
         console.log(thumbnail);
         return thumbnail;
       });
@@ -71,28 +71,30 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
           console.log(blob);
         imgUrl = URL.createObjectURL(thumbFile);
         console.log(imgUrl);
-        
+
       } catch (error) {
         console.log(error)
       }
     } else if (afdto.contentType === "audio") {
       imgUrl = process.env.PUBLIC_URL + "/images/audio.png";
+
     } else {
       imgUrl = process.env.PUBLIC_URL + "/images/unknown.png";
+      
     }
-    console.log(imgUrl);
-    console.log({ fileName: afdto.originalFilePureName, imgSrc: imgUrl });
+
+    setImgSrc(...imgSrc, imgUrl);
     return { fileName: afdto.originalFilePureName, imgSrc: imgUrl } 
   }
 
-  
+
   console.log("그림그리는 중", attachedFiles);
   console.log(imgUrl);
   return <Form.Group className="mb-3" >
     <Form.Label htmlFor="username">첨부파일</Form.Label>
+    <img src={imgSrc} />
     <AttachFile onFileSelect={onFileSelect} />
-
-    {attachedFiles.map(({fileName, imgSrc }) => <>{fileName}<img src={imgSrc} alt="|"  width='100px' height='100px' /></>)}
+    {attachedFiles.map(({fileName, imgSrc }) => <>{fileName}<img id="dd" src={imgSrc} alt="|"  width='100px' height='100px' /></>)}
     <Button variant="primary" onClick={handleAttach}>
       첨부
     </Button>
