@@ -9,8 +9,7 @@ import Fetch from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
 import { useFatch } from 'hooks/useFatch';
 import ReplyList from './ReplyList';
-import imgAudio from 'images/audio.png';
-import imgUnknown from 'images/unknown.png';
+
 
 
 export default function PostDetail() {
@@ -49,14 +48,13 @@ function RenderSuccess(post){
                          <ListGroup.Item as="li">
                             {attachFile.originalFilePureName}
                             {thumbnailRequestTarget.includes(attachFile.contentType)?
-                            <img src={`/anonymous/displayThumbnail?attachInfo=${attachFile.jsonRepresentation}`} alt="|" />
-                            :attachFile.contentType ==="audio"?<img src={imgAudio} width='20px' height='20px' />:<img src={imgUnknown}  width='20px' height='20px' />
-                            
-                            
+                            <img src={`/anonymous/displayThumbnail?attachInfo=${attachFile}`} alt="|" />
+                            :attachFile.contentType ==="audio"?<img src={process.env.PUBLIC_URL + "/images/audio.png"} width='20px' height='20px' />
+                            :<img src={process.env.PUBLIC_URL + "/images/unknown.png"} width='20px' height='20px' />
                             }
                             </ListGroup.Item>
                     ))}
-                
+
                 <ListGroup.Item as="li">
                 <Link className="badge bg-secondary text-wrap" key={state.boardId} to={`/board`} state={state}>
                     목록으로

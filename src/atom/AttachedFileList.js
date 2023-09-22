@@ -9,9 +9,8 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
   const [contentFilter, setContentFilter] = useState([]);
   //지금까지 선택한 파일 기억장치. 업로드 용도
   const [attachedFiles, setAttachedFile] = useState([]);
-  const [썸네일들, set썸네일들] = useState([]);
-  const 썸네일이미지목록 = [];
-  let 로드해야할개수 = 0;
+  const [imgSrc, setImgSrc] = useState([]);
+
   const [attachedFileUrls, setAttachedFileUrls] = useState([]);
   const justUrl = [];
 
@@ -47,65 +46,45 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
         });
       alert("성공");
       console.log(response.data);
-      response.data.forEach(afDTO=>{
-        if(thumbnailRequestTarget.includes(afDTO.contentType))
-        justUrl.push(afDTO.jsonRepresentation);
-
+      response.data.forEach(afdto => {
+        if (thumbnailRequestTarget.includes(afdto.contentType))
+          loadThumbnail(afdto);
       });
-
       setAttachedFileUrls([...attachedFileUrls, ...justUrl]);
       setListAttach([...listAttach, ...response.data]);
-/*
-      Array.from(response.data).forEach((attachFileDTO) => {
-        if (thumbnailRequestTarget.includes(attachFileDTO.contentType)) {
-          로드해야할개수++;
-          썸네일파일가져오기(attachFileDTO);
-        }
-      });
-*/
     } catch (error) {
       alert("돌아가");
       console.log(error);
     }
 
   }
-/*
-  const 썸네일파일가져오기 = async (attachFileDTO) => {
+
+  const loadThumbnail = async (afdto) => {
     try {
-      const response = await axios.post(`/displayThumbnail`, attachFileDTO,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "x-auth-token": `${writer.accessToken}`
-          }
-        });
-
-
-      var blob = new Blob([new ArrayBuffer(response.data)], { type: response.headers["content-type"] });
-      var imageURL = URL.createObjectURL(blob);
+      const blob = await axios.post(`/anonymous/displayThumbnail`, afdto,
+      {   headers: { "Content-Type": "application/json" },
+          responseType: "blob"
+        }).then(res => res.data);
       console.log(blob);
-      console.log(imageURL);
-      썸네일이미지목록.push(imageURL);
-      console.log("로드해야할개수 : " + 로드해야할개수 + "썸네일이미지목록.length : " + 썸네일이미지목록.length);
-      if (로드해야할개수 === 썸네일이미지목록.length) {
-        set썸네일들([...썸네일들, ...썸네일이미지목록]);
-      }
-
-      console.log("썸네일 파일 정보 읽기 성공");
-      //console.log(response.headers['content-type']); 
-      //console.log(response.data);
+      const thumbFile = new File([blob], "image", { type: blob.type });
+      const imgUrl = URL.createObjectURL(thumbFile);
+      setImgSrc(imgUrl);
     } catch (error) {
-      console.log("썸네일 파일 정보 읽기 실패");
-      console.log(error);
+      console.log(error)
     }
   }
-*/
+
+
+
+
+
+
+
   console.log("그림그리는 중");
 
   return <Form.Group className="mb-3" >
     <Form.Label htmlFor="username">첨부파일</Form.Label>
-    {attachedFileUrls.map(queryString => <img src={`/anonymous/displayThumbnail?attachInfo=${queryString}`} alt="|" />)}
-    {/*attachedFiles.map(af=><span>{af.name} | </span>) */}
+    <img src={imgSrc} />
     <AttachFile onFileSelect={onFileSelect} />
     <Button variant="primary" onClick={handleAttach}>
       첨부
