@@ -83,7 +83,7 @@ export default function PostList() {
             <Table responsive variant="white" >
                 <thead>
                     <tr>
-                        <th>제목</th>
+                        <th width="50%">제목</th>
                         <th>작성자</th>
                         <th>조회수</th>
                         <th>좋아요</th>
@@ -98,7 +98,7 @@ export default function PostList() {
                                 <Link className="link-success link-offset-2 link-underline-opacity-0 link-underline-opacity-20-hover"
                                     key={post.id} to={`/post`}
                                     state={{ id: post.id, boardId: state.boardId, page: currentPage, search: txtSearch.current?.value, postListWithPaging }}>
-                                    {post.title}
+                                    <b>{post.title}</b>
                                 </Link>
                             </td>
                             <td>{post.writer ? post.writer.name : ""}</td>

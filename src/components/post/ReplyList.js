@@ -107,8 +107,8 @@ export default function ReplyList({ parent }) {
         {parent.listReply?.map((reply) => {
             return <ListGroup.Item as="li">
                 ▸▹ <span>{reply.content}</span>
-                &nbsp;&nbsp;&nbsp;&nbsp; / <span>{displayDate(reply.regDt, reply.uptDt)}</span>
-                &nbsp;&nbsp;&nbsp;&nbsp; / <span>{reply.writer ? reply.writer.nick : ""}</span>
+                &nbsp;&nbsp; / &nbsp;&nbsp; <span>{displayDate(reply.regDt, reply.uptDt)}</span>
+                &nbsp;&nbsp; / &nbsp;&nbsp; <span>{reply.writer ? reply.writer.nick : ""}</span>
                 <ReplyList parent={reply} />
             </ListGroup.Item>
         })}

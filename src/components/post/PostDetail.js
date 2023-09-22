@@ -31,18 +31,17 @@ function RenderSuccess(post){
         console.log(post);
         return <>
             <ListGroup responsive variant="white">
-
-                <ListGroup.Item variant="white" as="li" active>
-                    title : {post.title}
+                <ListGroup.Item variant="dark" as="li">
+                    <h3><b>{post.title}</b></h3>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" disabled>
-                    작성자 : {post.writer ? post.writer.username : ""}&nbsp;&nbsp;
-                    readCnt : <span>{post.readCnt}&nbsp;&nbsp;</span>
-                    likeCnt : <span>{post.likeCnt}&nbsp;&nbsp;</span>
-                    disCnt : <span>{post.disCnt}&nbsp;&nbsp;</span>
-                    최종작성일 : <span>{displayDate(post.regDt, post.uptDt)}</span>
+                    작성자 : <b>{post.writer ? post.writer.username : ""}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ✔ : <span>{post.readCnt}&nbsp;&nbsp;</span>
+                    👍 : <span>{post.likeCnt}&nbsp;&nbsp;</span>
+                    😡 : <span>{post.disCnt}&nbsp;&nbsp;</span>
+                    ⏱ : <span>{displayDate(post.regDt, post.uptDt)}</span>
                 </ListGroup.Item>
-                <ListGroup.Item as="li" style={{ height: 100 }}>{post.content}</ListGroup.Item>
+                <ListGroup.Item as="li" style={{ height: 200 }}>{post.content}</ListGroup.Item>
                 
                 {post.listAttachFile?.map((attachFile) => (
                          <ListGroup.Item as="li">
@@ -55,7 +54,7 @@ function RenderSuccess(post){
                             </ListGroup.Item>
                     ))}
 
-                <ListGroup.Item as="li">
+                <ListGroup.Item as="li"  variant="warning">
                 <Link className="badge bg-secondary text-wrap" key={state.boardId} to={`/board`} state={state}>
                     목록으로
                 </Link>

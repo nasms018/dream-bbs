@@ -18,7 +18,7 @@ export default function BBSNav() {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col md="auto">
       &nbsp;&nbsp;
       <Link className="badge bg-danger text-wrap" to="/">
         홈
@@ -28,7 +28,7 @@ export default function BBSNav() {
       <Fetch uri={boardListUri} renderSuccess={RenderSuccess} />
       &nbsp;&nbsp;
       </Col>
-      <Col>
+      <Col md="auto">
       {isManager ? (
         <Link
           className="badge bg-warning text-wrap"

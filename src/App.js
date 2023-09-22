@@ -10,6 +10,21 @@ const getCodeList = async (setCodeList) => {
   const response = await axios.get("/framework/anonymous/listAllContactPointType");
   setCodeList(response?.data);
 }
+/*
+async function fn() {
+  let text = '하나';
+  text = text + await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('둘');
+    }, 2000);
+  });
+  text += '셋';
+  console.log(text + '넷');
+  return text + '넷';
+}
+console.log(fn().then(a=>{console.log(a); return a +"asdf"}))
+*/
+
 
 function App() {
   const { codeList, setCodeList } = useContext(AppContext);
