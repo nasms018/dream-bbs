@@ -14,7 +14,7 @@ export default function ThumbnailList({imgDtoList}) {
         return <img src={imgUrl} />
     }
 
-    return [imgDtoList.map(afdto=>{
+    return [imgDtoList?.map(afdto=>{
         if (thumbnailRequestTarget.includes(afdto.contentType)) {
             return <Post uri={`/anonymous/displayThumbnail`} body={afdto} renderSuccess={renderImg}/>
         } else if (afdto.contentType === "audio") {

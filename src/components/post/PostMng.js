@@ -6,6 +6,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import AttachFile from 'atom/AttachFile';
 import AttachedFileList from 'atom/AttachedFileList';
+import ThumbnailList from 'atom/ThumbnailList';
 
 export default function PostMng() {
   const location = useLocation();
@@ -15,7 +16,7 @@ export default function PostMng() {
   const { auth } = useContext(AppContext);
   const [title, setTitle] = useState(post?.title);
   const [content, setContent] = useState(post?.content);
-  const [listAttach, setListAttach] = useState([]);
+  const [listAttach, setListAttach] = useState(post.listAttachFile);
 
   const [hasAllContents, setHasAllContents] = useState()
 
@@ -90,6 +91,7 @@ export default function PostMng() {
           required  //필수의
         />
       </Form.Group>
+      <ThumbnailList imgDtoList={listAttach}/>
       <Form.Group>
         <AttachedFileList writer={auth} listAttach={listAttach} setListAttach={setListAttach}/>
       </Form.Group>

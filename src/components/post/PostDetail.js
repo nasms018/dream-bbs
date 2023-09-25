@@ -9,8 +9,7 @@ import {Fetch} from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
 import { useFatch } from 'hooks/useFatch';
 import ReplyList from './ReplyList';
-
-
+import ThumbnailList from 'atom/ThumbnailList';
 
 export default function PostDetail() {
     const thumbnailRequestTarget = ["video", "image"];
@@ -42,18 +41,9 @@ function RenderSuccess(post){
                     ⏱ : <span>{displayDate(post.regDt, post.uptDt)}</span>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" style={{ height: 200 }}>{post.content}</ListGroup.Item>
-                
-                {post.listAttachFile?.map((attachFile) => (
-                         <ListGroup.Item as="li">
-                            {attachFile.originalFilePureName}
-                            {thumbnailRequestTarget.includes(attachFile.contentType)?
-                            <img src={`/anonymous/displayThumbnail?attachInfo=${attachFile}`} alt="|" />
-                            :attachFile.contentType ==="audio"?<img src={process.env.PUBLIC_URL + "/images/audio.png"} width='100px' height='100px' />
-                            :<img src={process.env.PUBLIC_URL + "/images/unknown.png"} width='100px' height='100px' />
-                            }
-                            </ListGroup.Item>
-                    ))}
-
+                <ListGroup.Item>
+                <ThumbnailList imgDtoList={post.listAttachFile}/>
+                </ListGroup.Item>
                 <ListGroup.Item as="li"  variant="warning">
                 <Link className="badge bg-secondary text-wrap" key={state.boardId} to={`/board`} state={state}>
                     목록으로

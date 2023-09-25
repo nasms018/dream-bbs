@@ -13,7 +13,7 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
   const [imgDtoList, setImgDtoList] = useState([]);
 
   const [imgSrc, setImgSrc] = useState([]);
-  const [attachedFileUrls, setAttachedFileUrls] = useState([]);
+  //const [listAttach, setListAttach] = useState();
 
   function onFileSelect(finedAndHeaders) {
     let files = [], headers = [];
@@ -47,7 +47,8 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
         }
       }).then(res => {
         const listDto = res.data;
-        setImgDtoList(res.data);
+        setImgDtoList(listDto);
+        setListAttach([...listAttach, ...listDto])
       }).catch((error) => {
         console.log(error);
       }).finally(()=>{
@@ -59,7 +60,7 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
 
   return <Form.Group className="mb-3" >
     <Form.Label htmlFor="username">첨부파일</Form.Label>
-    <ThumbnailList imgDtoList={imgDtoList}/>
+
     <AttachFile onFileSelect={onFileSelect} />
     <Button variant="primary" onClick={handleAttach}>
       첨부
