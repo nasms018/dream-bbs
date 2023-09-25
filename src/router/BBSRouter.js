@@ -14,7 +14,7 @@ export default function BBSRouter() {
           <Route path="/post" element={ <PostDetail /> } />
           <Route path="/post/managePost" element={ <PostMng /> } />
 
-          <Route path="/sign-up" element={ <Register /> } />
+          <Route path="/sign-api/sign-in" element={ <Register /> } />
           <Route path="/member_list/:ownerId" element={ <MemberList /> } />
         </Routes>
        

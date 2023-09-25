@@ -53,7 +53,7 @@ const Register = () => {
 			console.log(response?.data);
 			console.log(JSON.stringify(response))
 		} catch (err) {
-			setErrMsg('jkhgiujhg')
+			setErrMsg('err')
 		}
 	};
 

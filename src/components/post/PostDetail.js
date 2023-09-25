@@ -16,11 +16,8 @@ export default function PostDetail() {
     const postUri = `/post/anonymous/getPost/${state.id}`
 
     return <>
-        
         <Fetch uri={postUri} renderSuccess={RenderSuccess} />
         </>
-    
-
 
 function RenderSuccess(post){
         console.log(post);
@@ -49,9 +46,10 @@ function RenderSuccess(post){
                     <ListGroup.Item as="li">
                         <Link
                             className="badge bg-info text-wrap"
-                            to="/post/managePost" state={state}>
+                            to="/post/managePost" state={{ post: post, state }} >
                             수정
                         </Link>
+
                     </ListGroup.Item>
                     : ""}
                 
