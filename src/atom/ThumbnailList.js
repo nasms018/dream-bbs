@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'api/axios';
-import {Post} from 'toolbox/Fetch';
+import { Post } from 'toolbox/Fetch';
 
 export default function ThumbnailList({imgDtoList}) {
     console.log("ThumbnailList render ", imgDtoList);
@@ -11,7 +9,7 @@ export default function ThumbnailList({imgDtoList}) {
         console.log("blob", blob);
         const thumbFile = new File([blob.data], "image");
         const imgUrl = (window.URL || window.webkitURL).createObjectURL(thumbFile);
-        return <img src={imgUrl} />
+        return <img src={imgUrl}  width="100px" height="100px"/>
     }
 
     return [imgDtoList?.map(afdto=>{
@@ -20,11 +18,11 @@ export default function ThumbnailList({imgDtoList}) {
         } else if (afdto.contentType === "audio") {
             const imgUrl = process.env.PUBLIC_URL + "/images/audio.png";
             console.log("imgUrl", imgUrl);
-            return <img src={imgUrl} />;
+            return <img src={imgUrl} width="100px" height="100px"/>;
         } else {
             const imgUrl = process.env.PUBLIC_URL + "/images/unknown.png";
             console.log("imgUrl", imgUrl);
-            return <img src={imgUrl} />;
+            return <img src={imgUrl}  width="100px" height="100px"/>;
         }
     })]
 }

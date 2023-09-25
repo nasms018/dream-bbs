@@ -11,8 +11,8 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
   const [업로드파일기억장치, set업로드파일기억장치] = useState([]);
   const [imgDtoList, setImgDtoList] = useState([]);
 
-  const [imgSrc, setImgSrc] = useState([]);
-  const [attachedFileUrls, setAttachedFileUrls] = useState([]);
+
+
 
   function onFileSelect(finedAndHeaders) {
     let files = [], headers = [];
@@ -23,6 +23,8 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
       }
     });
     if (files.length > 0) {
+      console.log(headers);
+      console.log(files);
       setContentFilter([...contentFilter, ...headers]);
       set업로드파일기억장치([...업로드파일기억장치, ...files]);
     }
@@ -46,6 +48,7 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
         }
       }).then(res => {
         const listDto = res.data;
+        console.log(listDto);
         setImgDtoList(listDto);
         setListAttach([...listAttach, ...listDto]);
       }).catch((error) => {

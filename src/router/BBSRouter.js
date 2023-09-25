@@ -1,10 +1,10 @@
-import PostList from 'components/post/PostList';
 import Home from 'components/Home';
-import PostDetail from 'components/post/PostDetail';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Register from 'components/Register';
 import MemberList from 'components/MemberList';
+import Register from 'components/Register';
+import PostDetail from 'components/post/PostDetail';
+import PostList from 'components/post/PostList';
 import PostMng from 'components/post/PostMng';
+import { Route, Routes } from 'react-router-dom';
 
 export default function BBSRouter() {
     return (

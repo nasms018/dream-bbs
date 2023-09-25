@@ -1,9 +1,8 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { useRef, useState, useEffect, useContext } from "react";
-import { Link } from 'react-router-dom';
 import axios from 'api/axios';
 import AppContext from "context/AppContextProvider";
+import { useContext, useEffect, useState } from "react";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Register = () => {
 	const { codeList } = useContext(AppContext);

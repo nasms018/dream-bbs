@@ -1,11 +1,9 @@
 import AppContext from "context/AppContextProvider";
-import Footer from "layout/Footer";
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 import Modal from 'react-bootstrap/Modal';
 import ReactDOM from 'react-dom';
-import { Link, Outlet } from 'react-router-dom';
-import Col from 'react-bootstrap/Col';
+import { Link } from 'react-router-dom';
 
 export default function LoginModal() {
   const { auth, setAuth } = useContext(AppContext);
