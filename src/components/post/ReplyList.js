@@ -3,7 +3,7 @@ import NewReply from 'atom/NewReply';
 import AppContext from "context/AppContextProvider";
 import { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { displayDate } from "toolbox/dateDisplayer";
+import { displayDate } from "toolbox/DateDisplayer";
 
 export default function ReplyList({parent}) {
     const { auth } = useContext(AppContext);

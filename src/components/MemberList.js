@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import {Fetch} from 'toolbox/Fetch';
-import { displayDate } from "toolbox/displayDate";
+import { displayDate } from "toolbox/DateDisplayer";
 import Table from "react-bootstrap/Table";
 
 export default function MemberList() {

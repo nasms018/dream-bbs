@@ -4,7 +4,7 @@ import { useContext } from "react";
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useLocation } from 'react-router-dom';
 import { Fetch } from 'toolbox/Fetch';
-import { displayDate } from "toolbox/displayDate";
+import { displayDate } from "toolbox/DateDisplayer";
 import ReplyList from './ReplyList';
 
 export default function PostDetail() {
