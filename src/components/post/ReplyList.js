@@ -1,111 +1,85 @@
 import axios from 'api/axios';
 import NewReply from 'atom/NewReply';
 import AppContext from "context/AppContextProvider";
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { displayDate } from "toolbox/displayDate";
+import { displayDate } from "toolbox/dateDisplayer";
 
-
-
-export default function ReplyList({ parent }) {
+export default function ReplyList({parent}) {
     const { auth } = useContext(AppContext);
 
-    const [justCreatedReplay, setJustCreatedReplay] = useState([]);
+    const [justCreatedReplyList, setJustCreatedReplyList] = useState([]);
     const [openAddReplay] = useState(new Map());
-    const [replyOnReply] = useState(new Map());
+    const [replayOnReply] = useState(new Map());
 
     const [renderCnt, setRenderCnt] = useState(0);
 
     function onInputReplyContent(e, replyId) {
-
         const content = e.target.value;
-        replyOnReply.set(replyId, content);
+        replayOnReply.set(replyId, content);
         setRenderCnt(renderCnt + 1);
-
     }
 
     function markShowAddReply(e, replyId) {
-        openAddReplay.set(replyId, 1)
+        openAddReplay.set(replyId, 1);
         setRenderCnt(renderCnt + 1);
     }
 
-
-
-
-    const mngReply = async (e, parentId) => {
+	const mngReply = async (e, parentId) => {
+        // 목적: 재 조회 방지. 성능
+        // parent 객체의 댓글 목록 ul을 찾아서 동적으로 강제적으로 넣기
         e.preventDefault();
-        //console.log(postId);
+		if (replayOnReply.get(parentId) === null || replayOnReply.get(parentId).length === 0)
+			return;
+        
+		const bodyData = {
+            firstVal:{id:parentId},
+	        secondVal:{content:replayOnReply.get(parentId)}
+        };
+		console.log(JSON.stringify(bodyData));
 
-        if (replyOnReply.get(parentId) === null || replyOnReply.get(parentId)?.length === 0)
-            return;
-        // writer;	//게시물 작성자
-        //content;
-        //setAuth({ user, roles, accessToken, userId, userNick});
-        //firstVal;private S secondVal
-        const bodyData = {
-            firstVal: { id: parentId },
-            secondVal: { content: replyOnReply.get(parentId) }
-        }
-
-        //console.log(bodyData);
-        //console.log(JSON.stringify(bodyData));
-        try {
-
-            const response = await axios.post(
-                "/post/createReply",
-                bodyData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    "x-auth-token": `${auth.accessToken}`
-                }
-            }
-            );
-
+		try {
+			const response = await axios.post(
+				"/post/createReply",
+				bodyData,
+				{headers: {
+					'Content-Type': 'application/json',
+					"x-auth-token": `${auth.accessToken}`}}
+			);
             const reply = response.data;
-            setJustCreatedReplay([reply, ...justCreatedReplay]);
-            replyOnReply.set(parentId, "")
+            setJustCreatedReplyList([reply, ...justCreatedReplyList]);
+            replayOnReply.set(parentId, "");
             setRenderCnt(renderCnt + 1);
-            //console.log(response?.bodyData);
-            //console.log(JSON.stringify(response))
-            //console.log(bodyData);
-            //console.log(response);
-            console.log("성공");
-            //목적 : 재 조회 방지. 성능
-            // parent 객체의 댓글 목록 ul 찾아서 동적으로 강제적으로 넣기
-
-        } catch (err) {
-            console.log('Registration Failed');
-        }
-
-    }
+		} catch (err) {
+			console.log('Registration Failed');
+		}
+	}
 
     function appendJustCreatedReply(newReply, parent) {
-        if (!parent.listReply.includes(newReply))
+        if (! parent.listReply.includes(newReply))
             parent.listReply = [newReply, ...parent.listReply];
-        //console.log("그림그리기 작동확인(parent.listReply)");
-        //console.log(parent.listReply);
-
     }
 
-    justCreatedReplay.forEach((newReply) => { appendJustCreatedReply(newReply, parent) })
+    justCreatedReplyList.forEach((newReply)=>{appendJustCreatedReply(newReply, parent)})
 
-    return <>&nbsp;&nbsp;
-        {auth.userNick ?
-            <Button variant="btn btn-light" onClick={(e) => { markShowAddReply(e, parent.id) }} size='sm'>
-                +댓글
-            </Button> : ""}
-        {openAddReplay.has(parent.id) ? <NewReply auth={auth} reply={parent} replyOnReply={replyOnReply}
-            onInputReplyContent={onInputReplyContent} mngReply={mngReply} /> : ""}
-
+    return <>
+            {auth.userNick ? 
+            <Button variant="primary" onClick={(e)=>{markShowAddReply(e, parent.id)}}>
+                댓글
+            </Button> :  ""}
+            
+            {openAddReplay.has(parent.id) ? <NewReply auth={auth} reply={parent} replayOnReply={replayOnReply} onInputReplyContent={onInputReplyContent} mngReply={mngReply}/> : ""}
+            <ul>
         {parent.listReply?.map((reply) => {
-            return <ListGroup.Item as="li">
-                ▸▹ <span>{reply.content}</span>
-                &nbsp;&nbsp; / &nbsp;&nbsp; <span>{displayDate(reply.regDt, reply.uptDt)}</span>
-                &nbsp;&nbsp; / &nbsp;&nbsp; <span>{reply.writer ? reply.writer.nick : ""}</span>
-                <ReplyList parent={reply} />
-            </ListGroup.Item>
+            return <li key={reply.id}>
+                content : <span>{reply.content}</span>
+                최종작성일 : <span>{displayDate(reply.regDt, reply.uptDt)} </span>
+                작성자 : <span>{reply.writer ? reply.writer.nick : ""} </span>
+                <ReplyList parent={reply}/>
+            </li>
         })}
+    </ul>
     </>
-
 }
+
+
