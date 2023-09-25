@@ -12,7 +12,7 @@ export default function PostMng() {
   //신규 시 post.boardVO.id 활용, 수정 시 모든 정보 활용
   const post = location.state?.post;
 
-  const { auth: writer } = useContext(AppContext);
+  const { auth } = useContext(AppContext);
   const [title, setTitle] = useState(post?.title);
   const [content, setContent] = useState(post?.content);
   const [listAttach, setListAttach] = useState([]);
@@ -33,8 +33,10 @@ export default function PostMng() {
     if (!hasAllContents)
       return;
 
+//{ accessToken, userId, userNick, userName, roles }
+    const writer = {id:auth.userId, nick:auth.userNick, name:auth.userName};
     const bodyData = {
-      id: post.id, writer: post.writer, boardVO: { id: post.boardVO.id },
+      id: post.id, writer: writer, boardVO: { id: post.boardVO.id },
       title: title.trim(), content: content.trim(), listAttachFile:listAttach
     }
 
@@ -46,7 +48,7 @@ export default function PostMng() {
         bodyData, {
         headers: {
           'Content-Type': 'application/json',
-          "x-auth-token": `${writer.accessToken}`
+          "x-auth-token": `${auth.accessToken}`
         }
       }
       );
@@ -89,7 +91,7 @@ export default function PostMng() {
         />
       </Form.Group>
       <Form.Group>
-        <AttachedFileList writer={writer} listAttach={listAttach} setListAttach={setListAttach}/>
+        <AttachedFileList writer={auth} listAttach={listAttach} setListAttach={setListAttach}/>
       </Form.Group>
       <Button variant="primary" onClick={handleSubmit} disabled={!hasAllContents}>
         등록

@@ -11,11 +11,11 @@ export default function LoginModal() {
   const { auth, setAuth } = useContext(AppContext);
   const [signInResult, setSignInResult] = useState({});
 
-  let userRef = useRef();
+  let userNickRef = useRef();
   let myInputRef = useRef()
 
 
-  const [user, setUser] = useState('');
+  const [userNick, setUserNick] = useState('');
   const [pwd, setPwd] = useState('');
 
 
@@ -37,7 +37,7 @@ export default function LoginModal() {
   //user, pwd의 변화 시 ErrMsg clearing
   useEffect(() => {
     setErrMsg('');
-  }, [user, pwd])
+  }, [userNick, pwd])
 
   const onSubmitEnter = (e) => {
     if (e.key === "Enter") {
@@ -55,7 +55,7 @@ export default function LoginModal() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: user, password: pwd }),
+      body: JSON.stringify({ id: userNick, password: pwd }),
     }).then(res => res.json());
     //console.log(jsonData);
     if (!jsonData.success)
@@ -65,7 +65,7 @@ export default function LoginModal() {
 
   async function handleSubmit() {
     var signInResult;
-    setUser('');
+    setUserNick('');
     setPwd('');
 
     try {
@@ -74,12 +74,13 @@ export default function LoginModal() {
       console.log(signInResult);
 
       const accessToken = signInResult.token;
-      const roles = signInResult.roles;
       const userId = signInResult.userId;
+      const userName = signInResult.userName;
       const userNick = signInResult.userNick;
+      const roles = signInResult.roles;
 
-      setAuth({ user, roles, accessToken, userId, userNick});
-      setUser('');
+      setAuth({ accessToken, userId, userNick, userName, roles });
+      setUserNick('');
       setPwd('');
 
       setShow(false);
@@ -89,12 +90,9 @@ export default function LoginModal() {
       console.log(error.message);
       setError(true);
       setErrMsg('Login Failed');
-      setAuth();
-      setSignInResult();
-
-
+      setAuth({});
+      setSignInResult({});
       alert("로그인 실패하였습니다.");
-
       setPwd('');
     };
   };
@@ -109,19 +107,16 @@ export default function LoginModal() {
   }
 
   function setFocusOnUser() {
-    ReactDOM.findDOMNode(userRef).focus();
+    ReactDOM.findDOMNode(userNickRef).focus();
   }
 
   return auth?.userNick ? (
     <section>
       
-      <span style={{ float: 'right' }} className="badge bg-success text-wrap">{auth.user}님 로그인</span>
+      <span style={{ float: 'right' }} className="badge bg-success text-wrap">{auth.userNick}님 로그인</span>
       
       <Button variant="dark" size="sm"
         onClick={handleLogout}>로그아웃</Button>
-      
-        
-      
     </section>
   ) : (
     <>
@@ -138,16 +133,16 @@ export default function LoginModal() {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" >
-              <Form.Label htmlFor="username">Username:</Form.Label>
+              <Form.Label htmlFor="userNick">userNick:</Form.Label>
               <Form.Control
-                ref={c => userRef = c}
+                ref={c => userNickRef = c}
                 type="text"
-                id="username"
-                inputRef={userRef}
+                id="userNick"
+                inputRef={userNickRef}
                 placeholder='ID를 입력하세요'
                 autoComplete="off"
-                onChange={(e) => setUser(e.target.value)}
-                value={user}
+                onChange={(e) => setUserNick(e.target.value)}
+                value={userNick}
                 required
               />
             </Form.Group>

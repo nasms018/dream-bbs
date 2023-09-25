@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useLocation } from 'react-router-dom';
-import Fetch from 'toolbox/Fetch';
+import {Fetch} from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
 import { useFatch } from 'hooks/useFatch';
 import ReplyList from './ReplyList';
@@ -48,8 +48,8 @@ function RenderSuccess(post){
                             {attachFile.originalFilePureName}
                             {thumbnailRequestTarget.includes(attachFile.contentType)?
                             <img src={`/anonymous/displayThumbnail?attachInfo=${attachFile}`} alt="|" />
-                            :attachFile.contentType ==="audio"?<img src={process.env.PUBLIC_URL + "/images/audio.png"} width='20px' height='20px' />
-                            :<img src={process.env.PUBLIC_URL + "/images/unknown.png"} width='20px' height='20px' />
+                            :attachFile.contentType ==="audio"?<img src={process.env.PUBLIC_URL + "/images/audio.png"} width='100px' height='100px' />
+                            :<img src={process.env.PUBLIC_URL + "/images/unknown.png"} width='100px' height='100px' />
                             }
                             </ListGroup.Item>
                     ))}

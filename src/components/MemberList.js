@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import Fetch from 'toolbox/Fetch';
+import {Fetch} from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
 import Table from "react-bootstrap/Table";
 
