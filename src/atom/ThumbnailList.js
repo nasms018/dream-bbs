@@ -20,11 +20,11 @@ export default function ThumbnailList({imgDtoList}) {
         } else if (afdto.contentType === "audio") {
             const imgUrl = process.env.PUBLIC_URL + "/images/audio.png";
             console.log("imgUrl", imgUrl);
-            return <img src={imgUrl}  width='100px' height='100px'  />;
+            return <img src={imgUrl} />;
         } else {
             const imgUrl = process.env.PUBLIC_URL + "/images/unknown.png";
             console.log("imgUrl", imgUrl);
-            return <img src={imgUrl}  width='100px' height='100px'  />;
+            return <img src={imgUrl} />;
         }
     })]
 }

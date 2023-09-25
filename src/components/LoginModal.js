@@ -124,7 +124,7 @@ export default function LoginModal() {
         onClick={handleShow}>
         로그인
       </Button>
-      <Link className='badge bg-warning text-wrap' to="/sign-up">회원가입</Link>
+      <Link className='badge bg-warning text-wrap' to="/sign-api/sign-in">회원가입</Link>
       <Modal show={show} onHide={handleClose} onShow={setFocusOnUser}>
         <Modal.Header closeButton>
           {/*error ? <Form.Label>{errMsg}</Form.Label>:""*/}

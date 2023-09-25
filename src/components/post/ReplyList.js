@@ -1,16 +1,10 @@
 import axios from 'api/axios';
+import NewReply from 'atom/NewReply';
 import AppContext from "context/AppContextProvider";
 import { useContext, useState } from "react";
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Link, useLocation } from 'react-router-dom';
-import Fetch from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
-import NewReply from 'atom/NewReply';
-import LoadPost from './PostDetail';
 
 
 

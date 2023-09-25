@@ -1,15 +1,11 @@
-import axios from 'api/axios';
-import NewReply from 'atom/NewReply';
+import ThumbnailList from 'atom/ThumbnailList';
 import AppContext from "context/AppContextProvider";
-import { useContext, useState } from "react";
-import Button from 'react-bootstrap/Button';
+import { useContext } from "react";
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useLocation } from 'react-router-dom';
-import {Fetch} from 'toolbox/Fetch';
+import { Fetch } from 'toolbox/Fetch';
 import { displayDate } from "toolbox/displayDate";
-import { useFatch } from 'hooks/useFatch';
 import ReplyList from './ReplyList';
-import ThumbnailList from 'atom/ThumbnailList';
 
 export default function PostDetail() {
     const thumbnailRequestTarget = ["video", "image"];
@@ -53,13 +49,8 @@ function RenderSuccess(post){
                     <ListGroup.Item as="li">
                         <Link
                             className="badge bg-info text-wrap"
-                            to="/post/managePost" state={{ post: post }}>
+                            to="/post/managePost" state={state}>
                             수정
-                        </Link>
-                        <Link
-                            className="badge bg-danger text-wrap"
-                            to={`/delete/{id}`}>
-                            삭제
                         </Link>
                     </ListGroup.Item>
                     : ""}

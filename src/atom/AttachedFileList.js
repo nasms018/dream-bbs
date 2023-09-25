@@ -2,7 +2,6 @@ import axios from 'api/axios';
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import AttachFile from './AttachFile';
-import ThumbnailList from './ThumbnailList';
 
 export default function AttachedFileList({ writer, listAttach, setListAttach }) {
   const thumbnailRequestTarget = ["video", "image"];
@@ -13,7 +12,7 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
   const [imgDtoList, setImgDtoList] = useState([]);
 
   const [imgSrc, setImgSrc] = useState([]);
-  //const [listAttach, setListAttach] = useState();
+  const [attachedFileUrls, setAttachedFileUrls] = useState([]);
 
   function onFileSelect(finedAndHeaders) {
     let files = [], headers = [];
@@ -48,7 +47,7 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
       }).then(res => {
         const listDto = res.data;
         setImgDtoList(listDto);
-        setListAttach([...listAttach, ...listDto])
+        setListAttach([...listAttach, ...listDto]);
       }).catch((error) => {
         console.log(error);
       }).finally(()=>{
@@ -60,7 +59,6 @@ export default function AttachedFileList({ writer, listAttach, setListAttach }) 
 
   return <Form.Group className="mb-3" >
     <Form.Label htmlFor="username">첨부파일</Form.Label>
-
     <AttachFile onFileSelect={onFileSelect} />
     <Button variant="primary" onClick={handleAttach}>
       첨부
