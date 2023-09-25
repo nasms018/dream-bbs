@@ -10,8 +10,9 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
   //지금까지 선택한 파일 기억장치. 업로드 용도
   const [uploadTargets, setUploadTargets] = useState([]);
   const [attachedFiles, setAttachedFiles] = useState([]);
-  const [imgSrc, setImgSrc] =useState([]);;
-  let imgUrl;
+  const [imgSrc, setImgSrc] =useState([]);
+
+  let justUrl = [];
   function onFileSelect(finedAndHeaders) {
     let files = [], headers = [];
     finedAndHeaders.forEach(({ file, header }) => {
@@ -42,14 +43,13 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
         });
       alert("성공");
       console.log(response.data);
-      const justUpload = response.data.map( (afdto) => {
-        const thumbnail = loadThumbnail(afdto);
-        console.log(thumbnail);
-        return thumbnail;
+      response.data.map( (afdto) => {
+        if (thumbnailRequestTarget.includes(afdto.contentType))
+          loadThumbnail(afdto);
       });
-      console.log("jstUpload");
-      console.log(justUpload);
-      setAttachedFiles([...attachedFiles, ...justUpload]);
+
+      setAttachedFiles([...attachedFiles, ...justUrl]);
+      setListAttach([...listAttach, ...response.data]);
     } catch (error) {
       alert("돌아가");
       console.log(error)
@@ -57,10 +57,10 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
     setUploadTargets([]);
   }
 
-  const loadThumbnail =(afdto) => {
+  const loadThumbnail = async (afdto) => {
     //originalFilePureName
     console.log(afdto);
-    if (thumbnailRequestTarget.includes(afdto.contentType)) {
+     
       try {
         const blob = axios.post(`/anonymous/displayThumbnail`, afdto,
           {
@@ -68,33 +68,22 @@ export default function AttachFileList({ writer, listAttach, setListAttach }) {
           }).then(res => res.data);
           console.log(blob);
           const thumbFile = new File([blob], "image", { type: blob.type });
-          console.log(blob);
-        imgUrl = URL.createObjectURL(thumbFile);
-        console.log(imgUrl);
-
+          const imgUrl = URL.createObjectURL(thumbFile);
+          setImgSrc(imgUrl);
       } catch (error) {
         console.log(error)
       }
-    } else if (afdto.contentType === "audio") {
-      imgUrl = process.env.PUBLIC_URL + "/images/audio.png";
-
-    } else {
-      imgUrl = process.env.PUBLIC_URL + "/images/unknown.png";
-      
-    }
-
-    setImgSrc(...imgSrc, imgUrl);
-    return { fileName: afdto.originalFilePureName, imgSrc: imgUrl } 
+    
   }
 
 
   console.log("그림그리는 중", attachedFiles);
-  console.log(imgUrl);
+
   return <Form.Group className="mb-3" >
     <Form.Label htmlFor="username">첨부파일</Form.Label>
     <img src={imgSrc} />
     <AttachFile onFileSelect={onFileSelect} />
-    {attachedFiles.map(({fileName, imgSrc }) => <>{fileName}<img id="dd" src={imgSrc} alt="|"  width='100px' height='100px' /></>)}
+    {attachedFiles.map((af) => <sapn><img src={imgSrc} alt="|"  width='100px' height='100px' /></sapn>)}
     <Button variant="primary" onClick={handleAttach}>
       첨부
     </Button>
