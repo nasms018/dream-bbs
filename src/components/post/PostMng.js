@@ -43,10 +43,13 @@ export default function PostMng() {
 				bodyData,
 				{headers: {
 					'Content-Type': 'application/json',
-					"x-auth-token": `${auth.accessToken}`}}
+					"x-auth-token": `Bearer ${auth.accessToken}`}}
 			);
-			navigate(`/board/${post.boardVO.id}/${state.postListWithPaging}`);
-				
+
+			//navigate(`/board/${post.boardVO.id}/1`);
+			console.log(state);
+			navigate(`/board`, {state:{boardId:post.boardVO.id, page:1}});
+
 			//clear state and controlled inputs
 			//need value attrib on inputs for this
 		} catch (err) {
@@ -62,7 +65,7 @@ export default function PostMng() {
 			const data = await axios.delete(`/post/${post.id}`,
 				{headers: {
 					'Content-Type': 'application/json',
-					"x-auth-token": `${auth.accessToken}`}});
+					"x-auth-token": `Bearer ${auth.accessToken}`}});
           console.log(data);
 		} catch (err) {
 			console.log('Delete Failed', err);

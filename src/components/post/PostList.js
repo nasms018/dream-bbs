@@ -1,57 +1,44 @@
 import AppContext from "context/AppContextProvider";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,useParams } from "react-router-dom";
 import { Fetch } from "toolbox/Fetch";
 import { displayDate } from "toolbox/DateDisplayer";
 
-export default function PostList() {
-    const location = useLocation();
 
+export default function PostList() {
+    let state = location.state;
+    const location = useLocation();
     const { auth } = useContext(AppContext);
     const isMember = auth?.roles?.includes("member");
-    const state = location.state;
-    console.log("state");
-    console.log(state);
-    const [currentPage, setCurrentPage] = useState(state.page);
+    const [currentPage, setCurrentPage] = useState(state?.page);
     const txtSearch = useRef("");
-
-    let initUrl;
-    if (state.search) {
-        initUrl = `/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`;
-
-    }
-    else {
-        initUrl = `/post/anonymous/listAll/${state.boardId}/${state.page}`;
-    }
-
-    const [postListUri, setPostListUri] = useState(initUrl);
+    const [postListUri, setPostListUri] = useState("");//initUrl
+    
+    useEffect(()=>{
+        if (state.search) {
+            setPostListUri(`/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`);
+        }
+        else {
+            setPostListUri(`/post/anonymous/listAll/${state.boardId}/${state.page}`);
+        }
+    }, [state.boardId, state.search, state.page])
 
     function buildPostListUri(page) {
         let search = txtSearch.current.value;
         if (!search && state.search)
             search = state.search;
-
         if (search.trim()) {
-            console.log("검색조회");
-            console.log(postListUri)
             setPostListUri(`/post/anonymous/search/${state.boardId}/${search}/${page}`);
-            console.log(`/post/anonymous/search/${state.boardId}/${search}/${page}`)
         } else {
-            console.log("기본조회");
-            console.log(currentPage)
             setPostListUri(`/post/anonymous/listAll/${state.boardId}/${page}`);
-            console.log(`/post/anonymous/listAll/${state.boardId}/${page}`)
         }
         setCurrentPage(page);
     }
 
     const onSearch = (e) => {
         e.preventDefault();
-        if (e.key === "Enter") {
-        }
-
         state.postListWithPaging = null;
         state.search = null
         buildPostListUri(1);
@@ -128,7 +115,8 @@ export default function PostList() {
                 <Link
                     className="badge bg-warning text-wrap"
                     to="/post/managePost"
-                    state={{ post: { boardVO: { id: state.boardId } } }}>
+                    currentPage={currentPage}
+                    state={{ post: { boardVO: { id: state.boardId }, listAttachFile:[] } }}>
                     글쓰기
                 </Link>
             ) : (

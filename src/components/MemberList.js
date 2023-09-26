@@ -32,7 +32,7 @@ function RenderSuccess(memberList) {
     return memberList.map(member => (
         <>
             <tr key={member.id} >
-                <td>{member.name}</td>
+                <td><b>{member.name}</b></td>
                 <td>{member.nick}</td>
                 <td>{member.sex ? "남성":"여성"}</td>
                 <td>{displayDate(member.regDt, member.uptDt)}</td>

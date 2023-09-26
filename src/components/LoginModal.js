@@ -48,7 +48,7 @@ export default function LoginModal() {
   async await에 대한..
   */
   async function signIn() {
-    const jsonData = await fetch(`/sign-api/sign-in`, {
+    const jsonData = await fetch(`/anonymous/sign-in`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export default function LoginModal() {
         onClick={handleShow}>
         로그인
       </Button>
-      <Link className='badge bg-warning text-wrap' to="/sign-api/sign-in">회원가입</Link>
+      <Link className='badge bg-warning text-wrap' to="/anonymous/sign-in">회원가입</Link>
       <Modal show={show} onHide={handleClose} onShow={setFocusOnUser}>
         <Modal.Header closeButton>
           {/*error ? <Form.Label>{errMsg}</Form.Label>:""*/}

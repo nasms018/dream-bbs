@@ -19,7 +19,7 @@ function NewReply({ auth, reply, replayOnReply, onInputReplyContent, mngReply })
                         style={{ height: "100%", width: "100%" }}
                         onInput={(e) => onInputReplyContent(e, reply.id)} />
                 </Col>
-                <Col sm><Button variant="primary" onClick={(e) => { mngReply(e, reply.id) }}>적용</Button></Col>
+                <Col sm><Button variant="light" onClick={(e) => { mngReply(e, reply.id) }}>적용</Button></Col>
             </Row>
         </Container>
     );
