@@ -11,7 +11,10 @@ export default function PostMng() {
 	const location = useLocation();
 	//신규 시 post.boardVO.id 활용, 수정 시 모든 정보 활용
 	const post = location.state?.post;
- 	const state = location.state;
+ 	const state = location.state?.state;
+
+	 //state={{ post: post, state }}
+	 //state={{ id: post.id, boardId: state.boardId, page: currentPage, search: txtSearch.current?.value, postListWithPaging }}
 
 	const { auth } = useContext(AppContext);
 	const navigate = useNavigate();
@@ -64,7 +67,10 @@ export default function PostMng() {
 		} catch (err) {
 			console.log('Delete Failed', err);
 		} finally {
-			navigate(`/board/${post.boardVO.id}/1`);
+			navigate(`/board`, {state:state});
+
+			//const post = location.state?.post;
+			//const state = location.state?.state;
 		}
 	}
 

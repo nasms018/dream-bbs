@@ -4,6 +4,7 @@ import AppContext from "context/AppContextProvider";
 import { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { displayDate } from "toolbox/DateDisplayer";
+import { ListGroup } from 'react-bootstrap';
 
 export default function ReplyList({parent}) {
     const { auth } = useContext(AppContext);
@@ -47,6 +48,7 @@ export default function ReplyList({parent}) {
 					"x-auth-token": `${auth.accessToken}`}}
 			);
             const reply = response.data;
+            console.log(response.data);
             setJustCreatedReplyList([reply, ...justCreatedReplyList]);
             replayOnReply.set(parentId, "");
             setRenderCnt(renderCnt + 1);
@@ -69,16 +71,16 @@ export default function ReplyList({parent}) {
             </Button> :  ""}
             
             {openAddReplay.has(parent.id) ? <NewReply auth={auth} reply={parent} replayOnReply={replayOnReply} onInputReplyContent={onInputReplyContent} mngReply={mngReply}/> : ""}
-            <ul>
+            <ListGroup as="ul">
         {parent.listReply?.map((reply) => {
-            return <li key={reply.id}>
-                content : <span>{reply.content}</span>
-                최종작성일 : <span>{displayDate(reply.regDt, reply.uptDt)} </span>
-                작성자 : <span>{reply.writer ? reply.writer.nick : ""} </span>
+            return <ListGroup.Item as="li" key={reply.id}>
+                ▸‣ <span>{reply.content}</span>
+                | <span>{displayDate(reply.regDt, reply.uptDt)} </span>
+                | <span>{reply.writer ? reply.writer.nick : ""} </span>
                 <ReplyList parent={reply}/>
-            </li>
+            </ListGroup.Item>
         })}
-    </ul>
+    </ListGroup>
     </>
 }
 

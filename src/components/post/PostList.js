@@ -12,7 +12,8 @@ export default function PostList() {
     const { auth } = useContext(AppContext);
     const isMember = auth?.roles?.includes("member");
     const state = location.state;
-
+    console.log("state");
+    console.log(state);
     const [currentPage, setCurrentPage] = useState(state.page);
     const txtSearch = useRef("");
 
