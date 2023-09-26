@@ -10,7 +10,7 @@ import { Fetch } from "toolbox/Fetch";
 
 
 export default function BBSNav() {
-  const { boardId } = useParams();
+
   const navigate = useNavigate();
   const boardListUri = `/bb/anonymous/listAll`;
   const { auth } = useContext(AppContext);
@@ -20,7 +20,7 @@ export default function BBSNav() {
     e.preventDefault();
 
     console.log(board_id);
-  navigate(`/board/${board_id}/1`, {state:{boardId:board_id, page:1}});
+    navigate(`/board/${board_id}/1`, {state:{boardId:board_id, page:1}});
 
   }
 
@@ -55,7 +55,6 @@ export default function BBSNav() {
       <Col>
       <LoginModal />
       </Col>
-    
     </Row>
     </Container>
   );
@@ -69,14 +68,14 @@ function RenderSuccess(boardList) {
       {boardList.map((board) => (
         <>
           &nbsp;&nbsp;
-          <button
+          <Link
             className="badge bg-warning text-wrap"
             key={board.id}
             onClick={(e)=>handleNavigate(board.id, e)}
             state={{ boardId: board.id, page: 1 }}
           //onClick={(e)=>{window.location.replace(`/board/${board.id}/1`)}}
           >{board.name}
-          </button>
+          </Link>
         </>
       ))}
     </>

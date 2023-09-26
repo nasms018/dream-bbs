@@ -6,10 +6,9 @@ import { Link, useLocation,useParams } from "react-router-dom";
 import { Fetch } from "toolbox/Fetch";
 import { displayDate } from "toolbox/DateDisplayer";
 
-
 export default function PostList() {
-    let state = location.state;
     const location = useLocation();
+    let state = location.state;
     const { auth } = useContext(AppContext);
     const isMember = auth?.roles?.includes("member");
     const [currentPage, setCurrentPage] = useState(state?.page);
