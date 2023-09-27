@@ -45,10 +45,13 @@ export default function PostMng() {
 					'Content-Type': 'application/json',
 					"x-auth-token": `Bearer ${auth.accessToken}`}}
 			);
-
+			if(!post.id){
+				navigate(`/board`, {state:{boardId:post.boardVO.id, page:1, search:""}});
+			}else{
+				navigate(`/board`, {state:state});
+			}
 			//navigate(`/board/${post.boardVO.id}/1`);
 			console.log(state);
-			navigate(`/board`, {state:{boardId:post.boardVO.id, page:1}});
 
 			//clear state and controlled inputs
 			//need value attrib on inputs for this
@@ -67,6 +70,8 @@ export default function PostMng() {
 					'Content-Type': 'application/json',
 					"x-auth-token": `Bearer ${auth.accessToken}`}});
           console.log(data);
+			
+
 		} catch (err) {
 			console.log('Delete Failed', err);
 		} finally {

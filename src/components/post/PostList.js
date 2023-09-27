@@ -7,46 +7,51 @@ import { Fetch } from "toolbox/Fetch";
 import { displayDate } from "toolbox/DateDisplayer";
 
 export default function PostList() {
+    const { auth } = useContext(AppContext);
+    
+    const isMember = auth?.roles?.includes("member");
+
     const location = useLocation();
     let state = location.state;
-    const { auth } = useContext(AppContext);
-    const isMember = auth?.roles?.includes("member");
-    const [currentPage, setCurrentPage] = useState(state?.page);
-    const txtSearch = useRef("");
-    const [postListUri, setPostListUri] = useState("");//initUrl
-    
-    useEffect(()=>{
-        if (state.search) {
-            setPostListUri(`/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`);
-        }
-        else {
-            setPostListUri(`/post/anonymous/listAll/${state.boardId}/${state.page}`);
-        }
-    }, [state.boardId, state.search, state.page])
 
-    function buildPostListUri(page) {
-        let search = txtSearch.current.value;
-        if (!search && state.search)
-            search = state.search;
-        if (search.trim()) {
-            setPostListUri(`/post/anonymous/search/${state.boardId}/${search}/${page}`);
+    const txtSearch = useRef("");
+    
+    const [currentPage, setCurrentPage] = useState("");
+    
+    function buildUrl() {
+        if (state.search) {
+            return `/post/anonymous/search/${state.boardId}/${state.search}/${state.page}`;
         } else {
-            setPostListUri(`/post/anonymous/listAll/${state.boardId}/${page}`);
+            return `/post/anonymous/listAll/${state.boardId}/${state.page}`;
         }
-        setCurrentPage(page);
     }
 
-    const onSearch = (e) => {
-        e.preventDefault();
-        state.postListWithPaging = null;
-        state.search = null
-        buildPostListUri(1);
-    };
+    const [postListUri, setPostListUri] = useState(buildUrl());//initUrl
+    const [targetBoard, setTargetBoard] = useState(state.boardId);
+
+    if(targetBoard !== state.boardId){
+        console.log("타겟 보드 체인지");
+        setTargetBoard(state.boardId);
+        setPostListUri(buildUrl());
+    }
 
     function goTo(chosenPage) {
         state.postListWithPaging = null;
-        buildPostListUri(chosenPage);
+        state.page = chosenPage;
+        setCurrentPage(chosenPage);
+        setPostListUri(buildUrl());
     }
+    
+    let search = txtSearch.current.value;
+    const onSearch = (e) => {
+        e.preventDefault();
+        state.postListWithPaging = null;
+        state.search = search
+
+        setCurrentPage(1);
+        setPostListUri(buildUrl());
+    };
+
 
     const displayPagination = (paging) => {
         const pagingBar = [];
@@ -83,8 +88,8 @@ export default function PostList() {
                         <tr key={post.id}>
                             <td>
                                 <Link className="link-success link-offset-2 link-underline-opacity-0 link-underline-opacity-20-hover"
-                                    key={post.id} to={`/post`}
-                                    state={{ id: post.id, boardId: state.boardId, page: currentPage, search: txtSearch.current?.value, postListWithPaging }}>
+                                    key={post.id} to={`/post/${post.id}`}
+                                    state={{ id: post.id, boardId: state.boardId, page: state.page, search: txtSearch.current?.value, postListWithPaging }}>
                                     <b>{post.title}</b>
                                 </Link>
                             </td>
@@ -121,8 +126,7 @@ export default function PostList() {
             ) : (
                 ""
             )}
-            {state.postListWithPaging ? renderSuccess(state.postListWithPaging) :
-                <Fetch uri={postListUri} renderSuccess={renderSuccess} />}
+            <Fetch uri={postListUri} renderSuccess={renderSuccess} />
         </div>
     );
 }
