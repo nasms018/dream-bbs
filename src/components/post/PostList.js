@@ -89,7 +89,6 @@ export default function PostList() {
                             <td>
                                 <Link className="link-success link-offset-2 link-underline-opacity-0 link-underline-opacity-20-hover"
                                     key={post.id} to={`/post/${post.id}`}
-                                    
                                     state={{ id: post.id, boardId: state.boardId, page: state.page, search: txtSearch.current?.value, postListWithPaging }}>
                                     <b>{post.title}</b>
                                 </Link>
