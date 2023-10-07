@@ -63,8 +63,7 @@ export default function BBSNav() {
 
 function RenderSuccess(boardList) {
   
-  return (
-    <>
+  return (<>
       {boardList.map((board) => (
         <>
           &nbsp;&nbsp;
